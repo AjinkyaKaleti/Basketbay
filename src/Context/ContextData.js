@@ -51,7 +51,9 @@ export default function ContextData(props) {
     // fetch products from backend on mount
     const fetchProducts = async () => {
       try {
-        const res = await axios.get("/api/products");
+        const res = await axios.get(
+          "https://basketbay-backend-production.up.railway.app/api/products"
+        );
         // res.data.products is array if API returns { products: [...] }
         setProducts(res.data.products || res.data);
       } catch (err) {
@@ -136,7 +138,9 @@ export default function ContextData(props) {
   useEffect(() => {
     const fetchProducts = async () => {
       try {
-        const res = await axios.get("/api/products");
+        const res = await axios.get(
+          "https://basketbay-backend-production.up.railway.app/api/products"
+        );
         const productsArray = Array.isArray(res.data.products)
           ? res.data.products
           : Array.isArray(res.data)
@@ -154,7 +158,10 @@ export default function ContextData(props) {
   // function to add product
   const addProduct = async (newProduct) => {
     try {
-      const res = await axios.post("/api/products", newProduct);
+      const res = await axios.post(
+        "https://basketbay-backend-production.up.railway.app/api/products",
+        newProduct
+      );
       setProducts((prev) => [...prev, res.data]); // update state instantly
       return true;
     } catch (err) {

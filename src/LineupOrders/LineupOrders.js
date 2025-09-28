@@ -15,7 +15,9 @@ function LineupOrders() {
   useEffect(() => {
     const fetchOrders = async () => {
       try {
-        const res = await axios.get("/api/orders/all"); // backend route
+        const res = await axios.get(
+          "https://basketbay-backend-production.up.railway.app/api/orders/all"
+        ); // backend route
         setOrders(res.data.orders || []);
       } catch (err) {
         console.error("Error fetching orders", err);

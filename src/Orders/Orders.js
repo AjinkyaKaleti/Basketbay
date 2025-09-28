@@ -98,11 +98,16 @@ function Orders() {
     };
 
     try {
-      const res = await axios.post("/api/orders", orderData);
+      const res = await axios.post(
+        "https://basketbay-backend-production.up.railway.app/api/orders",
+        orderData
+      );
       const newOrder = res.data.order;
 
       // refresh products
-      const refreshed = await axios.get("/api/products");
+      const refreshed = await axios.get(
+        "https://basketbay-backend-production.up.railway.app/api/products"
+      );
       const productsArray = refreshed.data.products || refreshed.data;
       setProducts(productsArray);
 

@@ -51,9 +51,13 @@ function AddProducts() {
       fd.append("discount", product.discount);
       if (image) fd.append("image", image);
 
-      const res = await axios.post("/api/products", fd, {
-        headers: { "Content-Type": "multipart/form-data" },
-      });
+      const res = await axios.post(
+        "https://basketbay-backend-production.up.railway.app/api/products",
+        fd,
+        {
+          headers: { "Content-Type": "multipart/form-data" },
+        }
+      );
 
       const newProduct = res.data.product;
 
@@ -92,8 +96,12 @@ function AddProducts() {
   //delete product
   const handleDeleteProduct = async (id) => {
     try {
-      await axios.delete(`/api/products/${id}`);
-      const refreshed = await axios.get("/api/products");
+      await axios.delete(
+        `https://basketbay-backend-production.up.railway.app/api/products/${id}`
+      );
+      const refreshed = await axios.get(
+        "https://basketbay-backend-production.up.railway.app/api/products"
+      );
       setProducts(refreshed.data.products || refreshed.data);
 
       setToast({
@@ -114,8 +122,12 @@ function AddProducts() {
   //increase product quantity
   const handleIncreaseProduct = async (id) => {
     try {
-      await axios.put(`/api/products/increase/${id}`);
-      const refreshed = await axios.get("/api/products");
+      await axios.put(
+        `https://basketbay-backend-production.up.railway.app/api/products/increase/${id}`
+      );
+      const refreshed = await axios.get(
+        "https://basketbay-backend-production.up.railway.app/api/products"
+      );
       setProducts(refreshed.data.products || refreshed.data);
 
       setToast({
@@ -136,23 +148,10 @@ function AddProducts() {
   // Reduce product quantity
   const handleReduceProduct = async (id) => {
     try {
-      // const productToUpdate = products.find((p) => p._id === id);
-      // if (!productToUpdate) return;
-
-      // await axios.put(`/api/products/decrease/${id}`);
-
-      // // Fetching latest products to ensure correct count
-      // const refreshed = await axios.get("/api/products");
-      // const productsArray = refreshed.data.products || refreshed.data;
-
-      // // Fix image mapping for all products
-      // const updatedProducts = productsArray.map((p) => ({
-      //   ...p,
-      //   image: getProductImage(p.image),
-      // }));
-
       // setProducts(updatedProducts);
-      const res = await axios.put(`/api/products/decrease/${id}`);
+      const res = await axios.put(
+        `https://basketbay-backend-production.up.railway.app/api/products/decrease/${id}`
+      );
       const updatedProduct = res.data.product;
 
       setProducts((prev) =>

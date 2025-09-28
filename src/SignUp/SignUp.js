@@ -159,9 +159,12 @@ function SignUp() {
         message: `${formValues.email}`,
         type: "success",
       });
-      await axios.post("/api/auth/send-otp", {
-        email: formValues.email,
-      });
+      await axios.post(
+        "https://basketbay-backend-production.up.railway.app/api/auth/send-otp",
+        {
+          email: formValues.email,
+        }
+      );
 
       setToast({
         show: true,
@@ -180,10 +183,13 @@ function SignUp() {
 
   const verifyOtp = async () => {
     try {
-      const { data } = await axios.post("/api/auth/verify-otp", {
-        email: formValues.email,
-        otp: formValues.otp,
-      });
+      const { data } = await axios.post(
+        "https://basketbay-backend-production.up.railway.app/api/auth/verify-otp",
+        {
+          email: formValues.email,
+          otp: formValues.otp,
+        }
+      );
       if (data.success) {
         setIsOtpVerified(true);
         setOtpSent(false); // enable resend OTP after success
@@ -217,7 +223,10 @@ function SignUp() {
     });
 
     try {
-      const { data } = await axios.post("/api/auth/signup", formValues);
+      const { data } = await axios.post(
+        "https://basketbay-backend-production.up.railway.app/api/auth/signup",
+        formValues
+      );
 
       // Welcome <user>
       setToast({

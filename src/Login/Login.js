@@ -51,9 +51,12 @@ function Login() {
       // Find email if user entered mobile number
       let email = username.includes("@") ? username : "";
       if (!email) {
-        const res = await axios.post("/api/auth/find-email-by-mobile", {
-          mobile: username,
-        });
+        const res = await axios.post(
+          "https://basketbay-backend-production.up.railway.app/api/auth/find-email-by-mobile",
+          {
+            mobile: username,
+          }
+        );
         email = res.data.email;
         if (!email)
           return setToast({
@@ -65,7 +68,10 @@ function Login() {
 
       setEmailToSendOtp(email);
 
-      await axios.post("/api/auth/send-otp", { email });
+      await axios.post(
+        "https://basketbay-backend-production.up.railway.app/api/auth/send-otp",
+        { email }
+      );
       setToast({
         show: true,
         message: `OTP sent to ${email}`,
@@ -91,15 +97,21 @@ function Login() {
       });
 
     try {
-      const res = await axios.post("/api/auth/verify-otp", {
-        email: emailToSendOtp,
-        otp,
-      });
+      const res = await axios.post(
+        "https://basketbay-backend-production.up.railway.app/api/auth/verify-otp",
+        {
+          email: emailToSendOtp,
+          otp,
+        }
+      );
 
       if (res.data.success) {
-        const loginRes = await axios.post("/api/auth/otp-login", {
-          email: emailToSendOtp,
-        });
+        const loginRes = await axios.post(
+          "https://basketbay-backend-production.up.railway.app/api/auth/otp-login",
+          {
+            email: emailToSendOtp,
+          }
+        );
 
         const backendUser = loginRes.data.user;
 
