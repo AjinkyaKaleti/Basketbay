@@ -52,7 +52,7 @@ function AddProducts() {
       if (image) fd.append("image", image);
 
       const res = await axios.post(
-        "https://basketbay-backend-production.up.railway.app/api/products",
+        `${process.env.REACT_APP_SERVER_URL}/api/products`,
         fd,
         {
           headers: { "Content-Type": "multipart/form-data" },
@@ -97,10 +97,10 @@ function AddProducts() {
   const handleDeleteProduct = async (id) => {
     try {
       await axios.delete(
-        `https://basketbay-backend-production.up.railway.app/api/products/${id}`
+        `${process.env.REACT_APP_SERVER_URL}/api/products/${id}`
       );
       const refreshed = await axios.get(
-        "https://basketbay-backend-production.up.railway.app/api/products"
+        `${process.env.REACT_APP_SERVER_URL}/api/products`
       );
       setProducts(refreshed.data.products || refreshed.data);
 
@@ -123,10 +123,10 @@ function AddProducts() {
   const handleIncreaseProduct = async (id) => {
     try {
       await axios.put(
-        `https://basketbay-backend-production.up.railway.app/api/products/increase/${id}`
+        `${process.env.REACT_APP_SERVER_URL}/api/products/increase/${id}`
       );
       const refreshed = await axios.get(
-        "https://basketbay-backend-production.up.railway.app/api/products"
+        `${process.env.REACT_APP_SERVER_URL}/api/products`
       );
       setProducts(refreshed.data.products || refreshed.data);
 
@@ -150,7 +150,7 @@ function AddProducts() {
     try {
       // setProducts(updatedProducts);
       const res = await axios.put(
-        `https://basketbay-backend-production.up.railway.app/api/products/decrease/${id}`
+        `${process.env.REACT_APP_SERVER_URL}/api/products/decrease/${id}`
       );
       const updatedProduct = res.data.product;
 

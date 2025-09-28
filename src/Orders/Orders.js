@@ -99,14 +99,14 @@ function Orders() {
 
     try {
       const res = await axios.post(
-        "https://basketbay-backend-production.up.railway.app/api/orders",
+        `${process.env.REACT_APP_SERVER_URL}/api/orders`,
         orderData
       );
       const newOrder = res.data.order;
 
       // refresh products
       const refreshed = await axios.get(
-        "https://basketbay-backend-production.up.railway.app/api/products"
+        `${process.env.REACT_APP_SERVER_URL}/api/products`
       );
       const productsArray = refreshed.data.products || refreshed.data;
       setProducts(productsArray);

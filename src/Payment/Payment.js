@@ -29,7 +29,7 @@ function Payment({
     try {
       // 1. Call backend to create Razorpay order
       const res = await axios.post(
-        "https://basketbay-backend-production.up.railway.app/api/payment/payment-gateway",
+        `${process.env.REACT_APP_SERVER_URL}/api/payment/payment-gateway`,
         { amount }
       );
       const order = res.data;
@@ -45,7 +45,7 @@ function Payment({
         handler: async function (response) {
           // verify payment with backend
           const verifyRes = await axios.post(
-            "https://basketbay-backend-production.up.railway.app/api/payment/verify-payment",
+            `${process.env.REACT_APP_SERVER_URL}/api/payment/verify-payment`,
             response
           );
 

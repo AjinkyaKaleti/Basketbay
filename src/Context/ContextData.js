@@ -52,7 +52,7 @@ export default function ContextData(props) {
     const fetchProducts = async () => {
       try {
         const res = await axios.get(
-          "https://basketbay-backend-production.up.railway.app/api/products"
+          `${process.env.REACT_APP_SERVER_URL}/api/products`
         );
         // res.data.products is array if API returns { products: [...] }
         setProducts(res.data.products || res.data);
@@ -67,9 +67,7 @@ export default function ContextData(props) {
   useEffect(() => {
     if (formValues && formValues._id) {
       axios
-        .get(
-          `https://basketbay-backend-production.up.railway.app/api/orders/${formValues._id}`
-        )
+        .get(`${process.env.REACT_APP_SERVER_URL}/api/orders/${formValues._id}`)
         .then((res) => {
           setRecentOrders(res.data);
           localStorage.setItem("recentOrders", JSON.stringify(res.data));
@@ -139,7 +137,7 @@ export default function ContextData(props) {
     const fetchProducts = async () => {
       try {
         const res = await axios.get(
-          "https://basketbay-backend-production.up.railway.app/api/products"
+          `${process.env.REACT_APP_SERVER_URL}/api/products`
         );
         const productsArray = Array.isArray(res.data.products)
           ? res.data.products
@@ -159,7 +157,7 @@ export default function ContextData(props) {
   const addProduct = async (newProduct) => {
     try {
       const res = await axios.post(
-        "https://basketbay-backend-production.up.railway.app/api/products",
+        `${process.env.REACT_APP_SERVER_URL}/api/products`,
         newProduct
       );
       setProducts((prev) => [...prev, res.data]); // update state instantly

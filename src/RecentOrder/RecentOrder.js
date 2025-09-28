@@ -10,9 +10,7 @@ function RecentOrder() {
   useEffect(() => {
     if (view === "recentOrders" && formValues && formValues._id) {
       axios
-        .get(
-          `https://basketbay-backend-production.up.railway.app/api/orders/${formValues._id}`
-        )
+        .get(`${process.env.REACT_APP_SERVER_URL}/api/orders/${formValues._id}`)
         .then((res) => setRecentOrders(res.data))
         .catch((err) => console.error(err));
     }

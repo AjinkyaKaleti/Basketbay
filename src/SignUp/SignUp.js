@@ -160,7 +160,7 @@ function SignUp() {
         type: "success",
       });
       await axios.post(
-        "https://basketbay-backend-production.up.railway.app/api/auth/send-otp",
+        `${process.env.REACT_APP_SERVER_URL}/api/auth/send-otp`,
         {
           email: formValues.email,
         }
@@ -184,7 +184,7 @@ function SignUp() {
   const verifyOtp = async () => {
     try {
       const { data } = await axios.post(
-        "https://basketbay-backend-production.up.railway.app/api/auth/verify-otp",
+        `${process.env.REACT_APP_SERVER_URL}/api/auth/verify-otp`,
         {
           email: formValues.email,
           otp: formValues.otp,
@@ -224,7 +224,7 @@ function SignUp() {
 
     try {
       const { data } = await axios.post(
-        "https://basketbay-backend-production.up.railway.app/api/auth/signup",
+        `${process.env.REACT_APP_SERVER_URL}/api/auth/signup`,
         formValues
       );
 
