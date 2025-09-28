@@ -29,7 +29,7 @@ function Payment({
     try {
       // 1. Call backend to create Razorpay order
       const res = await axios.post(
-        "http://localhost:5000/api/payment/payment-gateway",
+        "https://basketbay-backend-production.up.railway.app/api/payment/payment-gateway",
         { amount }
       );
       const order = res.data;
@@ -45,7 +45,7 @@ function Payment({
         handler: async function (response) {
           // verify payment with backend
           const verifyRes = await axios.post(
-            "http://localhost:5000/api/payment/verify-payment",
+            "https://basketbay-backend-production.up.railway.app/api/payment/verify-payment",
             response
           );
 
@@ -92,11 +92,10 @@ function Payment({
           Total: ₹<b>{amount}</b>
         </p>
         <button onClick={handleCOD} className="payment-option-button">
-          <img src="/MenuImages/cod.png" alt="cash on delivery" /> Cash on
-          Delivery
+          <img src="/cod.png" alt="cash on delivery" /> Cash on Delivery
         </button>
         <button onClick={handleRazorpay} className="payment-option-button">
-          <img src="/MenuImages/razorpay.png" alt="razorpay" />
+          <img src="/razorpay.png" alt="razorpay" />
           Razorpay
         </button>
       </div>

@@ -132,7 +132,7 @@ function App() {
   const handleLogin = async () => {
     try {
       const response = await axios.post(
-        "http://localhost:5000/api/auth/admin",
+        "https://basketbay-backend-production.up.railway.app/api/auth/admin",
         { password: password.trim() }
       );
       if (response.data.success) {
