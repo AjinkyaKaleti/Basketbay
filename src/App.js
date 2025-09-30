@@ -6,7 +6,7 @@ import Login from "./Login/Login";
 import SignUp from "./SignUp/SignUp";
 import Orders from "./Orders/Orders";
 import RecentOrder from "./RecentOrder/RecentOrder";
-// import Error from "./Error/Error";
+import ToastMessage from "../ToastMessage/ToastMessage";
 import "./App.css";
 import Products from "./Products/Products";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -203,40 +203,25 @@ function App() {
           )}
         </div>
       </div>
-
       <div className="app-container">
         <div>
           <Home />
           {isLogoclick ? <AdminTabs /> : renderContent()}
         </div>
       </div>
-
       {formValues.isLoggedIn ? (
         <CustomerProfile
           show={showProfileModal}
           handleClose={handleCloseProfile}
         />
       ) : (
-        <div
-          className="toast align-items-center show"
-          role="alert"
-          aria-live="assertive"
-          aria-atomic="true"
-        >
-          <div className="d-flex">
-            <div className="toast-body">
-              Please login to access your profile
-            </div>
-            <button
-              type="button"
-              className="btn-close me-2 m-auto"
-              data-bs-dismiss="toast"
-              aria-label="Close"
-            ></button>
-          </div>
-        </div>
+        <ToastMessage
+          message={toast.message}
+          type={toast.type}
+          show={toast.show}
+          onClose={() => setToast({ ...toast, show: false })}
+        />
       )}
-
       <Modal show={show} onHide={handleClose} size="sm" centered>
         <Modal.Header closeButton>
           <Modal.Title>Admin Login</Modal.Title>
