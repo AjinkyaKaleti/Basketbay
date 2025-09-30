@@ -113,10 +113,10 @@ function RecentOrder() {
                           key={product._id}
                           className="border rounded p-2 mb-2 bg-light d-flex flex-column flex-md-row align-items-center"
                         >
-                          {product.imageUrl && (
+                          {product.image && (
                             <div>
                               <img
-                                src={product.imageUrl}
+                                src={product.image}
                                 alt={product.name}
                                 style={{
                                   width: "60px",

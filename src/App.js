@@ -211,11 +211,30 @@ function App() {
         </div>
       </div>
 
-      {formValues.isLoggedIn && (
+      {formValues.isLoggedIn ? (
         <CustomerProfile
           show={showProfileModal}
           handleClose={handleCloseProfile}
         />
+      ) : (
+        <div
+          className="toast align-items-center show"
+          role="alert"
+          aria-live="assertive"
+          aria-atomic="true"
+        >
+          <div className="d-flex">
+            <div className="toast-body">
+              Please login to access your profile
+            </div>
+            <button
+              type="button"
+              className="btn-close me-2 m-auto"
+              data-bs-dismiss="toast"
+              aria-label="Close"
+            ></button>
+          </div>
+        </div>
       )}
 
       <Modal show={show} onHide={handleClose} size="sm" centered>

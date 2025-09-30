@@ -43,25 +43,37 @@ function AddProducts() {
   //Add product
   const handleAddProduct = async () => {
     try {
-      const fd = new FormData();
-      fd.append("name", product.name);
-      fd.append("description", product.description);
-      fd.append("count", product.count);
-      fd.append("price", product.price);
-      fd.append("discount", product.discount);
-      if (image) fd.append("image", image);
+      let imageUrl = product.image;
+
+      // Upload image to Cloudinary if a file is selected
+      if (image) {
+        const formData = new FormData();
+        formData.append("image", image);
+
+        const uploadRes = await axios.post(
+          `${process.env.REACT_APP_SERVER_URL}/api/upload`,
+          formData
+        );
+
+        imageUrl = uploadRes.data.imageUrl; // Cloudinary URL
+      }
+
+      // Now add product with imageUrl
+      const fd = {
+        name: product.name,
+        description: product.description,
+        count: product.count,
+        price: product.price,
+        discount: product.discount,
+        image: imageUrl,
+      };
 
       const res = await axios.post(
         `${process.env.REACT_APP_SERVER_URL}/api/products`,
-        fd,
-        {
-          headers: { "Content-Type": "multipart/form-data" },
-        }
+        fd
       );
 
       const newProduct = res.data.product;
-
-      //When setting new product after upload
       newProduct.image = getProductImage(newProduct.image);
 
       setProducts((prev) => [newProduct, ...prev]);
