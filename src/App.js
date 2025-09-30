@@ -6,7 +6,6 @@ import Login from "./Login/Login";
 import SignUp from "./SignUp/SignUp";
 import Orders from "./Orders/Orders";
 import RecentOrder from "./RecentOrder/RecentOrder";
-import ToastMessage from "../ToastMessage/ToastMessage";
 import "./App.css";
 import Products from "./Products/Products";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -209,17 +208,10 @@ function App() {
           {isLogoclick ? <AdminTabs /> : renderContent()}
         </div>
       </div>
-      {formValues.isLoggedIn ? (
+      {formValues.isLoggedIn && (
         <CustomerProfile
           show={showProfileModal}
           handleClose={handleCloseProfile}
-        />
-      ) : (
-        <ToastMessage
-          message={toast.message}
-          type={toast.type}
-          show={toast.show}
-          onClose={() => setToast({ ...toast, show: false })}
         />
       )}
       <Modal show={show} onHide={handleClose} size="sm" centered>
