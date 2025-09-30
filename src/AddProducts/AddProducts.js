@@ -299,7 +299,7 @@ function AddProducts() {
             <div key={p._id} className="outer-card">
               <div className="product-card">
                 <div className="product-image-div">
-                  <img src={getProductImage(p.image)} alt={p.name} />
+                  <img src={getProductImage(p.imageUrl)} alt={p.name} />
                 </div>
                 <div className="product-price-div">
                   <b>{p.discount}%</b> &nbsp; <i>₹{p.price}</i>
