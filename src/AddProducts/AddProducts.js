@@ -65,7 +65,7 @@ function AddProducts() {
         count: product.count,
         price: product.price,
         discount: product.discount,
-        image: imageUrl,
+        imageUrl: imageUrl,
       };
 
       const res = await axios.post(
@@ -74,6 +74,7 @@ function AddProducts() {
       );
 
       const newProduct = res.data.product;
+      console.log(res);
       newProduct.image = getProductImage(newProduct.imageUrl);
 
       setProducts((prev) => [newProduct, ...prev]);
