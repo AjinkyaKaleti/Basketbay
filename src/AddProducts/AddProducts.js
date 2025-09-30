@@ -74,7 +74,7 @@ function AddProducts() {
       );
 
       const newProduct = res.data.product;
-      newProduct.image = getProductImage(newProduct.image);
+      newProduct.image = getProductImage(newProduct.imageUrl);
 
       setProducts((prev) => [newProduct, ...prev]);
 
