@@ -16,7 +16,7 @@ function AddProducts() {
     price: "",
     discount: "",
     count: "",
-    image: "",
+    imageUrl: "",
   });
 
   const [image, setImage] = useState(null);
@@ -43,7 +43,7 @@ function AddProducts() {
   //Add product
   const handleAddProduct = async () => {
     try {
-      let imageUrl = product.image;
+      let imageUrl = product.imageUrl;
 
       // Upload image to Cloudinary if a file is selected
       if (image) {
@@ -59,25 +59,14 @@ function AddProducts() {
       }
 
       // Now add product with imageUrl
-      const fd = {
-        name: product.name,
-        description: product.description,
-        count: product.count,
-        price: product.price,
-        discount: product.discount,
-        imageUrl: imageUrl,
-      };
+      const fd = { ...product, imageUrl };
 
       const res = await axios.post(
         `${process.env.REACT_APP_SERVER_URL}/api/products`,
         fd
       );
-
       const newProduct = res.data.product;
       console.log(res);
-      newProduct.image = getProductImage(
-        newProduct.imageUrl || newProduct.image
-      );
 
       setProducts((prev) => [newProduct, ...prev]);
 
@@ -88,7 +77,7 @@ function AddProducts() {
         count: "",
         price: "",
         discount: "",
-        image: "",
+        imageUrl: "",
       });
       setImage(null);
       if (inputRef.current) inputRef.current.value = "";
