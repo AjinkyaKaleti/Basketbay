@@ -295,6 +295,7 @@ function AddProducts() {
       {/* Product history */}
       <div className="row">
         <div className="product-add-history">
+          {console.log(products)}
           {products.map((p) => (
             <div key={p._id} className="outer-card">
               <div className="product-card">
