@@ -51,7 +51,7 @@ function AddProducts() {
         formData.append("image", image);
 
         const uploadRes = await axios.post(
-          `${process.env.REACT_APP_SERVER_URL}/api/upload`,
+          `${process.env.REACT_APP_SERVER_URL}/api/upload/image`,
           formData
         );
 
@@ -163,7 +163,7 @@ function AddProducts() {
           p._id === id
             ? {
                 ...updatedProduct,
-                image: getProductImage(updatedProduct.image),
+                image: getProductImage(updatedProduct.imageUrl),
               }
             : p
         )
