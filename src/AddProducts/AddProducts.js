@@ -48,9 +48,9 @@ function AddProducts() {
     return (
       product.name.trim() !== "" &&
       product.description.trim() !== "" &&
-      product.price !== null &&
-      product.count !== null &&
-      product.discount !== null &&
+      product.price !== "" &&
+      product.count !== "" &&
+      product.discount !== "" &&
       image !== null
     );
   };
@@ -98,9 +98,9 @@ function AddProducts() {
       setProduct({
         name: "",
         description: "",
-        count: null,
-        price: null,
-        discount: null,
+        count: "",
+        price: "",
+        discount: "",
         imageUrl: "",
       });
       setImage(null);
