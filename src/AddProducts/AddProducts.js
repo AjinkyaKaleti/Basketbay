@@ -59,7 +59,13 @@ function AddProducts() {
       }
 
       // Now add product with imageUrl
-      const fd = { ...product, imageUrl };
+      const fd = {
+        ...product,
+        count: parseInt(product.count, 10) || 0,
+        price: parseFloat(product.price) || 0,
+        discount: parseFloat(product.discount) || 0,
+        imageUrl,
+      };
 
       const res = await axios.post(
         `${process.env.REACT_APP_SERVER_URL}/api/products`,
