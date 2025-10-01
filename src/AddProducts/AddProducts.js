@@ -256,7 +256,6 @@ function AddProducts() {
               className="product-upload-choose-file"
               name="image"
               onChange={handleImageChange}
-              hidden
             />
           </div>
         </div>
