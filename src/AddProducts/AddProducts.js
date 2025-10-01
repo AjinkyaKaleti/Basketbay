@@ -13,9 +13,9 @@ function AddProducts() {
   const [product, setProduct] = useState({
     name: "",
     description: "",
-    price: "",
-    discount: "",
-    count: "",
+    price: null,
+    discount: null,
+    count: null,
     imageUrl: "",
   });
 
