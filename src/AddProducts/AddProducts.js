@@ -254,6 +254,7 @@ function AddProducts() {
               type="file"
               ref={inputRef}
               className="product-upload-choose-file"
+              name="image"
               onChange={handleImageChange}
               hidden
             />
