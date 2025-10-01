@@ -58,18 +58,10 @@ function AddProducts() {
   //Add product
   const handleAddProduct = async () => {
     try {
-      // Prepare product data
-      const fd = {
-        ...product,
-        count: parseInt(product.count, 10) || 0,
-        price: parseFloat(product.price) || 0,
-        discount: parseFloat(product.discount) || 0,
-        imageUrl: "/add_image_default.jpg", // default fallback
-      };
+      let imageUrl = "";
 
       // Upload image if selected
       if (image) {
-        console.log("Uploading image:", image);
         const formData = new FormData();
         formData.append("image", image);
 
@@ -79,37 +71,30 @@ function AddProducts() {
           { headers: { "Content-Type": "multipart/form-data" } }
         );
 
-        console.log("Upload response:", uploadRes.data);
-
-        if (uploadRes.data && uploadRes.data.url) {
-          fd.imageUrl = uploadRes.data.url;
-          console.log("Image uploaded successfully:", fd.imageUrl);
+        if (uploadRes.data.url) {
+          imageUrl = uploadRes.data.url;
         } else {
-          console.warn("No image URL returned, using default image");
+          throw new Error("No image URL returned from server");
         }
       }
 
-      // POST product to backend
-      console.log("Sending product data to backend:", fd);
+      const fd = {
+        ...product,
+        count: parseInt(product.count, 10) || 0,
+        price: parseFloat(product.price) || 0,
+        discount: parseFloat(product.discount) || 0,
+        imageUrl: imageUrl || "/add_image_default.jpg",
+      };
+
       const res = await axios.post(
         `${process.env.REACT_APP_SERVER_URL}/api/products`,
         fd
       );
 
       const newProduct = res.data.product;
-      console.log("Product added successfully:", newProduct);
-
-      // Update products list in state
       setProducts((prev) => [newProduct, ...prev]);
 
-      // Show success toast
-      setToast({
-        show: true,
-        message: "Product added to Inventory!",
-        type: "success",
-      });
-
-      // Reset form and image input after successful POST
+      // Reset form
       setProduct({
         name: "",
         description: "",
@@ -120,8 +105,17 @@ function AddProducts() {
       });
       setImage(null);
       if (inputRef.current) inputRef.current.value = null;
+
+      setToast({
+        show: true,
+        message: "Product added to Inventory!",
+        type: "success",
+      });
     } catch (err) {
-      console.error("Error adding product:", err.response || err.message);
+      console.error(
+        "Error adding product:",
+        err.response || err.message || err
+      );
       setToast({
         show: true,
         message: "Failed to add product!",
