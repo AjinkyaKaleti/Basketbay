@@ -63,7 +63,7 @@ function Products() {
     const fetchProducts = async () => {
       try {
         const res = await axios.get(
-          `/api/products?page=${page}&limit=${limit}`
+          `${process.env.REACT_APP_SERVER_URL}/api/products?page=${page}&limit=${limit}`
         );
         const productsArray = res.data.products || [];
         const productsWithImages = productsArray.map((p) => ({
