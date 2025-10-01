@@ -55,7 +55,7 @@ function AddProducts() {
           formData
         );
 
-        imageUrl = uploadRes.data.imageUrl; // Cloudinary URL
+        imageUrl = uploadRes.data.url; // Cloudinary URL
       }
 
       // Now add product with imageUrl
@@ -66,7 +66,7 @@ function AddProducts() {
         fd
       );
       const newProduct = res.data.product;
-      console.log(res);
+      // console.log(res);
 
       setProducts((prev) => [newProduct, ...prev]);
 
@@ -88,7 +88,13 @@ function AddProducts() {
         type: "success",
       });
     } catch (err) {
-      console.error(err);
+      if (err.response) {
+        console.error("Server error:", err.response.data);
+      } else if (err.request) {
+        console.error("No response received:", err.request);
+      } else {
+        console.error("Error:", err.message);
+      }
       setToast({
         show: true,
         message: "Failed to add product!",
@@ -284,7 +290,7 @@ function AddProducts() {
       {/* Product history */}
       <div className="row">
         <div className="product-add-history">
-          {console.log(products)}
+          {/* {console.log(products)} */}
           {products.map((p) => (
             <div key={p._id} className="outer-card">
               <div className="product-card">
