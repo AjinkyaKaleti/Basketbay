@@ -19,7 +19,6 @@ import AdminTabs from "./AdminPanelTabs/AdminPanelTabs";
 import CustomerProfile from "./CustomerProfile/CustomerProfile";
 import axios from "axios";
 import { Modal, Button, Form } from "react-bootstrap";
-import ToastMessage from "../ToastMessage/ToastMessage";
 
 function App() {
   const {
@@ -30,8 +29,6 @@ function App() {
     setIsLogoClick,
     handleLogout,
     logout,
-    setToast,
-    toast,
   } = useContext(Context);
 
   const logoRef = useRef(null);
@@ -139,11 +136,6 @@ function App() {
       );
       if (response.data.success) {
         alert(response.data.msg);
-        setToast({
-          show: true,
-          message: `${response.data.msg}`,
-          type: "success",
-        });
         setIsLogoClick(true);
         setPassword("");
         handleClose();
@@ -248,15 +240,6 @@ function App() {
           </Button>
         </Modal.Footer>
       </Modal>
-
-      {toast.show && (
-        <ToastMessage
-          message={toast.message}
-          type={toast.type}
-          show={toast.show}
-          onClose={() => setToast({ ...toast, show: false })}
-        />
-      )}
     </>
   );
 }
