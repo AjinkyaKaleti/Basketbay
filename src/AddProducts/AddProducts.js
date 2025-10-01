@@ -58,60 +58,58 @@ function AddProducts() {
   //Add product
   const handleAddProduct = async () => {
     try {
-      if (inputRef.current) {
-        inputRef.current.value = null; // reset file input
-      }
-      let imageUrl = "";
-
-      // Upload image to Cloudinary if a file is selected
-      if (image) {
-        const formData = new FormData();
-        formData.append("image", image);
-
-        console.log("FormData entries:");
-        for (let pair of formData.entries()) {
-          console.log(pair[0], pair[1]);
-        }
-
-        const uploadRes = await axios.post(
-          `${process.env.REACT_APP_SERVER_URL}/api/upload/image`,
-          formData,
-          {
-            headers: {
-              "Content-Type": "multipart/form-data",
-            },
-          }
-        );
-
-        if (uploadRes.data && uploadRes.data.url) {
-          imageUrl = uploadRes.data.url;
-          console.log("Cloudinary upload response URL: ", imageUrl);
-        } else {
-          throw new Error("No image URL returned from server");
-        }
-      }
-
-      // Now add product with imageUrl
+      // Prepare product data
       const fd = {
         ...product,
         count: parseInt(product.count, 10) || 0,
         price: parseFloat(product.price) || 0,
         discount: parseFloat(product.discount) || 0,
-        imageUrl: imageUrl || "/add_image_default.jpg", // fallback,
+        imageUrl: "/add_image_default.jpg", // default fallback
       };
 
-      console.log("fd var holds:", JSON.stringify(fd, null, 2));
+      // Upload image if selected
+      if (image) {
+        console.log("Uploading image:", image);
+        const formData = new FormData();
+        formData.append("image", image);
 
+        const uploadRes = await axios.post(
+          `${process.env.REACT_APP_SERVER_URL}/api/upload/image`,
+          formData,
+          { headers: { "Content-Type": "multipart/form-data" } }
+        );
+
+        console.log("Upload response:", uploadRes.data);
+
+        if (uploadRes.data && uploadRes.data.url) {
+          fd.imageUrl = uploadRes.data.url;
+          console.log("Image uploaded successfully:", fd.imageUrl);
+        } else {
+          console.warn("No image URL returned, using default image");
+        }
+      }
+
+      // POST product to backend
+      console.log("Sending product data to backend:", fd);
       const res = await axios.post(
         `${process.env.REACT_APP_SERVER_URL}/api/products`,
         fd
       );
-      const newProduct = res.data.product;
-      // console.log(res);
 
+      const newProduct = res.data.product;
+      console.log("Product added successfully:", newProduct);
+
+      // Update products list in state
       setProducts((prev) => [newProduct, ...prev]);
 
-      // Reset form
+      // Show success toast
+      setToast({
+        show: true,
+        message: "Product added to Inventory!",
+        type: "success",
+      });
+
+      // Reset form and image input after successful POST
       setProduct({
         name: "",
         description: "",
@@ -120,25 +118,10 @@ function AddProducts() {
         discount: null,
         imageUrl: "",
       });
-
       setImage(null);
-
-      setToast({
-        show: true,
-        message: "Product added to Inventory!",
-        type: "success",
-      });
+      if (inputRef.current) inputRef.current.value = null;
     } catch (err) {
-      if (err.response) {
-        console.error(
-          "Server error:",
-          JSON.stringify(err.response.data, null, 2)
-        );
-      } else if (err.request) {
-        console.error("No response received:", err.request);
-      } else {
-        console.error("Error:", err.message);
-      }
+      console.error("Error adding product:", err.response || err.message);
       setToast({
         show: true,
         message: "Failed to add product!",
