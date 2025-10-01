@@ -224,7 +224,7 @@ function App() {
             <Form.Group controlId="adminPassword">
               <Form.Label>Password</Form.Label>
               <Form.Control
-                type={passwordVisible ? "password" : "text"}
+                type={passwordVisible ? "text" : "password"}
                 placeholder="Enter admin password"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
