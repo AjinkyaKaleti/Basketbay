@@ -31,15 +31,28 @@ function AddProducts() {
   //File input change
   const handleImageChange = (e) => {
     const file = e.target.files[0];
-    console.log("Selected file:", file);
     if (file) {
       setImage(file);
-      console.log("Image state updated:", file.name, file.size);
+      console.log("Selected image file:", file);
+    } else {
+      console.warn("No file selected!");
     }
   };
 
   const productUploadImage = () => {
     inputRef.current.click();
+  };
+
+  // Check if all required fields are filled
+  const isFormValid = () => {
+    return (
+      product.name.trim() !== "" &&
+      product.description.trim() !== "" &&
+      product.price !== null &&
+      product.count !== null &&
+      product.discount !== null &&
+      image !== null
+    );
   };
 
   //Add product
@@ -59,7 +72,12 @@ function AddProducts() {
 
         const uploadRes = await axios.post(
           `${process.env.REACT_APP_SERVER_URL}/api/upload/image`,
-          formData
+          formData,
+          {
+            headers: {
+              "Content-Type": "multipart/form-data",
+            },
+          }
         );
 
         console.log(
@@ -304,7 +322,11 @@ function AddProducts() {
           />
         </div>
         <div className="col-md-1 text-center mt-2">
-          <button className="btn btn-success" onClick={handleAddProduct}>
+          <button
+            className="btn btn-success"
+            onClick={handleAddProduct}
+            disabled={!isFormValid()}
+          >
             <FontAwesomeIcon icon={faPlus} />
           </button>
         </div>
