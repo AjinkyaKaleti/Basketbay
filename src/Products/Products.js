@@ -11,7 +11,7 @@ function Products() {
 
   const [page, setPage] = useState(1); // current page
   const [totalPages, setTotalPages] = useState(1); // total pages
-  const limit = 10; // how many products per page (adjust as you like)
+  const limit = 6; // how many products per page (adjust as you like)
 
   const handleAddToCart = (product) => {
     setProducts((prevProducts) => {
