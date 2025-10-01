@@ -58,6 +58,9 @@ function AddProducts() {
   //Add product
   const handleAddProduct = async () => {
     try {
+      if (inputRef.current) {
+        inputRef.current.value = null; // reset file input
+      }
       let imageUrl = "";
 
       // Upload image to Cloudinary if a file is selected
@@ -256,7 +259,6 @@ function AddProducts() {
               className="product-upload-choose-file"
               name="image"
               onChange={handleImageChange}
-              value=""
               hidden
             />
           </div>
