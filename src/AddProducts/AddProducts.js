@@ -83,12 +83,12 @@ function AddProducts() {
           }
         );
 
-        imageUrl = uploadRes.data.url; // Cloudinary URL
-
-        console.log(
-          "Cloudinary upload response: ",
-          JSON.stringify(uploadRes.data.message, null, 2)
-        );
+        if (uploadRes.data && uploadRes.data.url) {
+          imageUrl = uploadRes.data.url;
+          console.log("Cloudinary upload response URL: ", imageUrl);
+        } else {
+          throw new Error("No image URL returned from server");
+        }
       }
 
       // Now add product with imageUrl
@@ -115,13 +115,13 @@ function AddProducts() {
       setProduct({
         name: "",
         description: "",
-        count: "",
-        price: "",
-        discount: "",
+        count: null,
+        price: null,
+        discount: null,
         imageUrl: "",
       });
+
       setImage(null);
-      if (inputRef.current) inputRef.current.value = "";
 
       setToast({
         show: true,
