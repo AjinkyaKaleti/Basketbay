@@ -31,8 +31,10 @@ function AddProducts() {
   //File input change
   const handleImageChange = (e) => {
     const file = e.target.files[0];
+    console.log("Selected file:", file);
     if (file) {
       setImage(file);
+      console.log("Image state updated:", file.name, file.size);
     }
   };
 
@@ -49,6 +51,11 @@ function AddProducts() {
       if (image) {
         const formData = new FormData();
         formData.append("image", image);
+
+        console.log("FormData entries:");
+        for (let pair of formData.entries()) {
+          console.log(pair[0], pair[1]);
+        }
 
         const uploadRes = await axios.post(
           `${process.env.REACT_APP_SERVER_URL}/api/upload/image`,
