@@ -80,12 +80,12 @@ function AddProducts() {
           }
         );
 
-        console.log(
-          "Cloudinary upload response:",
-          JSON.stringify(uploadRes.data, null, 2)
-        );
-
         imageUrl = uploadRes.data.url; // Cloudinary URL
+
+        console.log(
+          "Cloudinary upload response: ",
+          JSON.stringify(uploadRes.data.message, null, 2)
+        );
       }
 
       // Now add product with imageUrl
