@@ -43,7 +43,7 @@ function AddProducts() {
   //Add product
   const handleAddProduct = async () => {
     try {
-      let imageUrl = product.imageUrl;
+      let imageUrl = "";
 
       // Upload image to Cloudinary if a file is selected
       if (image) {
@@ -55,6 +55,11 @@ function AddProducts() {
           formData
         );
 
+        console.log(
+          "Cloudinary upload response:",
+          JSON.stringify(uploadRes.data, null, 2)
+        );
+
         imageUrl = uploadRes.data.url; // Cloudinary URL
       }
 
@@ -64,10 +69,10 @@ function AddProducts() {
         count: parseInt(product.count, 10) || 0,
         price: parseFloat(product.price) || 0,
         discount: parseFloat(product.discount) || 0,
-        imageUrl,
+        imageUrl: imageUrl || "/add_image_default.jpg", // fallback,
       };
 
-      console.log(JSON.stringify(fd));
+      console.log("fd var holds:", JSON.stringify(fd, null, 2));
 
       const res = await axios.post(
         `${process.env.REACT_APP_SERVER_URL}/api/products`,
@@ -97,7 +102,10 @@ function AddProducts() {
       });
     } catch (err) {
       if (err.response) {
-        console.error("Server error:", err.response.data);
+        console.error(
+          "Server error:",
+          JSON.stringify(err.response.data, null, 2)
+        );
       } else if (err.request) {
         console.error("No response received:", err.request);
       } else {
