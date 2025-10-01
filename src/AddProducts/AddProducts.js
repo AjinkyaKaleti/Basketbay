@@ -55,6 +55,8 @@ function AddProducts() {
           formData
         );
 
+        console.log(`upload res: ${uploadRes.data}`);
+
         imageUrl = uploadRes.data.url; // Cloudinary URL
       }
 
@@ -66,6 +68,8 @@ function AddProducts() {
         discount: parseFloat(product.discount) || 0,
         imageUrl,
       };
+
+      console.log(`fd var holds: ${fd}`);
 
       const res = await axios.post(
         `${process.env.REACT_APP_SERVER_URL}/api/products`,
