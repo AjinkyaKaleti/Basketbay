@@ -37,6 +37,7 @@ function App() {
   const [show, setShow] = useState(false);
   const [password, setPassword] = useState("");
   const [showProfileModal, setShowProfileModal] = useState(false);
+  const [passwordVisible, setPasswordVisible] = useState(false);
 
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
@@ -223,10 +224,16 @@ function App() {
             <Form.Group controlId="adminPassword">
               <Form.Label>Password</Form.Label>
               <Form.Control
-                type="text"
+                type={passwordVisible ? "password" : "text"}
                 placeholder="Enter admin password"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
+                onMouseEnter={() => {
+                  setPasswordVisible(true);
+                }}
+                onMouseLeave={() => {
+                  setPasswordVisible(false);
+                }}
               />
             </Form.Group>
           </Form>
