@@ -22,6 +22,11 @@ function AddProducts() {
   const [image, setImage] = useState(null);
   const inputRef = useRef(null);
 
+  // Products state with pagination
+  const [page, setPage] = useState(1);
+  const [hasMore, setHasMore] = useState(true);
+  const limit = 10; // Products per fetch
+
   //reset form
   const resetForm = () => {
     setProduct({
@@ -212,6 +217,46 @@ function AddProducts() {
       });
     }
   };
+
+  // Fetch products with pagination
+  const fetchProducts = async () => {
+    if (!hasMore) return;
+    try {
+      const res = await axios.get(
+        `${process.env.REACT_APP_SERVER_URL}/api/products?limit=${limit}&page=${page}`
+      );
+      setProducts((prev) => [...prev, ...res.data.products]);
+      setPage((prev) => prev + 1);
+      if (res.data.products.length < limit) setHasMore(false);
+    } catch (err) {
+      console.error(err);
+      setToast({
+        show: true,
+        message: "Failed to load products!",
+        type: "warning",
+      });
+    }
+  };
+
+  // Initial fetch
+  useEffect(() => {
+    fetchProducts();
+    // eslint-disable-next-line
+  }, []);
+
+  // Infinite scroll
+  useEffect(() => {
+    const handleScroll = () => {
+      if (
+        window.innerHeight + window.scrollY >=
+        document.documentElement.scrollHeight - 100
+      ) {
+        fetchProducts();
+      }
+    };
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, [products, hasMore]);
 
   return (
     <div className="upload-container">
