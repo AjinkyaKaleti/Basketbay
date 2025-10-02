@@ -22,6 +22,20 @@ function AddProducts() {
   const [image, setImage] = useState(null);
   const inputRef = useRef(null);
 
+  //reset form
+  const resetForm = () => {
+    setProduct({
+      name: "",
+      description: "",
+      count: "",
+      price: "",
+      discount: "",
+      imageUrl: "",
+    });
+    setImage(null);
+    if (inputRef.current) inputRef.current.value = null;
+  };
+
   // Input change handler
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -33,9 +47,7 @@ function AddProducts() {
     const file = e.target.files[0];
     if (file) {
       setImage(file);
-      console.log("Selected image file:", file);
     } else {
-      console.warn("No file selected!");
     }
   };
 
@@ -48,10 +60,10 @@ function AddProducts() {
     return (
       product.name.trim() !== "" &&
       product.description.trim() !== "" &&
-      product.price !== "" &&
-      product.count !== "" &&
-      product.discount !== "" &&
-      image !== null
+      product.price > 0 &&
+      product.count > 0 &&
+      product.discount >= 0 &&
+      image
     );
   };
 
@@ -94,17 +106,7 @@ function AddProducts() {
       const newProduct = res.data.product;
       setProducts((prev) => [newProduct, ...prev]);
 
-      // Reset form
-      setProduct({
-        name: "",
-        description: "",
-        count: "",
-        price: "",
-        discount: "",
-        imageUrl: "",
-      });
-      setImage(null);
-      if (inputRef.current) inputRef.current.value = null;
+      resetForm();
 
       setToast({
         show: true,
