@@ -27,6 +27,28 @@ function AddProducts() {
   const [hasMore, setHasMore] = useState(true);
   const limit = 10; // Products per fetch
 
+  //revoke object URL to prevent memory leaks
+  useEffect(() => {
+    return () => {
+      if (image) URL.revokeObjectURL(image);
+    };
+  }, [image]);
+
+  // Infinite scroll
+  useEffect(() => {
+    const handleScroll = () => {
+      if (
+        hasMore &&
+        window.innerHeight + window.scrollY >=
+          document.documentElement.scrollHeight - 100
+      ) {
+        fetchProducts();
+      }
+    };
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, [hasMore]);
+
   //reset form
   const resetForm = () => {
     setProduct({
@@ -140,7 +162,7 @@ function AddProducts() {
       const refreshed = await axios.get(
         `${process.env.REACT_APP_SERVER_URL}/api/products`
       );
-      setProducts(refreshed.data.products || refreshed.data);
+      setProducts((prev) => prev.filter((p) => p._id !== id));
 
       setToast({
         show: true,
@@ -241,22 +263,7 @@ function AddProducts() {
   // Initial fetch
   useEffect(() => {
     fetchProducts();
-    // eslint-disable-next-line
   }, []);
-
-  // Infinite scroll
-  useEffect(() => {
-    const handleScroll = () => {
-      if (
-        window.innerHeight + window.scrollY >=
-        document.documentElement.scrollHeight - 100
-      ) {
-        fetchProducts();
-      }
-    };
-    window.addEventListener("scroll", handleScroll);
-    return () => window.removeEventListener("scroll", handleScroll);
-  }, [products, hasMore]);
 
   return (
     <div className="upload-container">
