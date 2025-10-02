@@ -1,4 +1,4 @@
-import React, { useState, useRef, useContext } from "react";
+import React, { useState, useRef, useContext, useEffect } from "react";
 import "./AddProducts.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPlus, faTrashCan, faMinus } from "@fortawesome/free-solid-svg-icons";
@@ -13,26 +13,46 @@ function AddProducts() {
   const [product, setProduct] = useState({
     name: "",
     description: "",
-    price: null,
-    discount: null,
-    count: null,
+    price: "",
+    discount: "",
+    count: "",
     imageUrl: "",
   });
 
   const [image, setImage] = useState(null);
   const inputRef = useRef(null);
 
-  // Products state with pagination
+  // Pagination
   const [page, setPage] = useState(1);
   const [hasMore, setHasMore] = useState(true);
-  const limit = 10; // Products per fetch
+  const limit = 10;
 
-  //revoke object URL to prevent memory leaks
+  // Fetch products
+  const fetchProducts = async () => {
+    if (!hasMore) return;
+    try {
+      const res = await axios.get(
+        `${process.env.REACT_APP_SERVER_URL}/api/products?limit=${limit}&page=${page}`
+      );
+      const fetchedProducts = res.data.products || [];
+      setProducts((prev) => [...prev, ...fetchedProducts]);
+      setPage((prev) => prev + 1);
+      if (fetchedProducts.length < limit) setHasMore(false);
+    } catch (err) {
+      console.error(err);
+      setToast({
+        show: true,
+        message: "Failed to load products!",
+        type: "warning",
+      });
+    }
+  };
+
+  // Initial fetch
   useEffect(() => {
-    return () => {
-      if (image) URL.revokeObjectURL(image);
-    };
-  }, [image]);
+    fetchProducts();
+    // eslint-disable-next-line
+  }, []);
 
   // Infinite scroll
   useEffect(() => {
@@ -49,40 +69,42 @@ function AddProducts() {
     return () => window.removeEventListener("scroll", handleScroll);
   }, [hasMore]);
 
-  //reset form
+  // Cleanup object URL
+  useEffect(() => {
+    return () => {
+      if (image) URL.revokeObjectURL(image);
+    };
+  }, [image]);
+
+  // Reset form
   const resetForm = () => {
     setProduct({
       name: "",
       description: "",
-      count: "",
       price: "",
       discount: "",
+      count: "",
       imageUrl: "",
     });
     setImage(null);
     if (inputRef.current) inputRef.current.value = null;
   };
 
-  // Input change handler
+  // Input change
   const handleChange = (e) => {
     const { name, value } = e.target;
     setProduct({ ...product, [name]: value });
   };
 
-  //File input change
+  // File input
   const handleImageChange = (e) => {
     const file = e.target.files[0];
-    if (file) {
-      setImage(file);
-    } else {
-    }
+    if (file) setImage(file);
   };
 
-  const productUploadImage = () => {
-    inputRef.current.click();
-  };
+  const productUploadImage = () => inputRef.current.click();
 
-  // Check if all required fields are filled
+  // Form validation
   const isFormValid = () => {
     return (
       product.name.trim() !== "" &&
@@ -94,34 +116,27 @@ function AddProducts() {
     );
   };
 
-  //Add product
+  // Add product
   const handleAddProduct = async () => {
     try {
       let imageUrl = "";
 
-      // Upload image if selected
       if (image) {
         const formData = new FormData();
         formData.append("image", image);
-
         const uploadRes = await axios.post(
           `${process.env.REACT_APP_SERVER_URL}/api/upload/image`,
           formData,
           { headers: { "Content-Type": "multipart/form-data" } }
         );
-
-        if (uploadRes.data.url) {
-          imageUrl = uploadRes.data.url;
-        } else {
-          throw new Error("No image URL returned from server");
-        }
+        if (uploadRes.data.url) imageUrl = uploadRes.data.url;
       }
 
       const fd = {
         ...product,
-        count: parseInt(product.count, 10) || 0,
-        price: parseFloat(product.price) || 0,
-        discount: parseFloat(product.discount) || 0,
+        count: parseInt(product.count, 10),
+        price: parseFloat(product.price),
+        discount: parseFloat(product.discount),
         imageUrl: imageUrl || "/add_image_default.jpg",
       };
 
@@ -130,11 +145,8 @@ function AddProducts() {
         fd
       );
 
-      const newProduct = res.data.product;
-      setProducts((prev) => [newProduct, ...prev]);
-
+      setProducts((prev) => [res.data.product, ...prev]);
       resetForm();
-
       setToast({
         show: true,
         message: "Product added to Inventory!",
@@ -153,17 +165,13 @@ function AddProducts() {
     }
   };
 
-  //delete product
+  // Delete product
   const handleDeleteProduct = async (id) => {
     try {
       await axios.delete(
         `${process.env.REACT_APP_SERVER_URL}/api/products/${id}`
       );
-      const refreshed = await axios.get(
-        `${process.env.REACT_APP_SERVER_URL}/api/products`
-      );
       setProducts((prev) => prev.filter((p) => p._id !== id));
-
       setToast({
         show: true,
         message: "Product removed from inventory!",
@@ -179,17 +187,16 @@ function AddProducts() {
     }
   };
 
-  //increase product quantity
+  // Increase quantity locally
   const handleIncreaseProduct = async (id) => {
     try {
-      await axios.put(
+      const res = await axios.put(
         `${process.env.REACT_APP_SERVER_URL}/api/products/increase/${id}`
       );
-      const refreshed = await axios.get(
-        `${process.env.REACT_APP_SERVER_URL}/api/products`
+      const updatedProduct = res.data.product;
+      setProducts((prev) =>
+        prev.map((p) => (p._id === id ? updatedProduct : p))
       );
-      setProducts(refreshed.data.products || refreshed.data);
-
       setToast({
         show: true,
         message: "1 Product added to inventory!",
@@ -205,15 +212,13 @@ function AddProducts() {
     }
   };
 
-  // Reduce product quantity
+  // Reduce quantity locally
   const handleReduceProduct = async (id) => {
     try {
-      // setProducts(updatedProducts);
       const res = await axios.put(
         `${process.env.REACT_APP_SERVER_URL}/api/products/decrease/${id}`
       );
       const updatedProduct = res.data.product;
-
       setProducts((prev) =>
         prev.map((p) =>
           p._id === id
@@ -224,7 +229,6 @@ function AddProducts() {
             : p
         )
       );
-
       setToast({
         show: true,
         message: "1 Product removed from inventory!",
@@ -239,31 +243,6 @@ function AddProducts() {
       });
     }
   };
-
-  // Fetch products with pagination
-  const fetchProducts = async () => {
-    if (!hasMore) return;
-    try {
-      const res = await axios.get(
-        `${process.env.REACT_APP_SERVER_URL}/api/products?limit=${limit}&page=${page}`
-      );
-      setProducts((prev) => [...prev, ...res.data.products]);
-      setPage((prev) => prev + 1);
-      if (res.data.products.length < limit) setHasMore(false);
-    } catch (err) {
-      console.error(err);
-      setToast({
-        show: true,
-        message: "Failed to load products!",
-        type: "warning",
-      });
-    }
-  };
-
-  // Initial fetch
-  useEffect(() => {
-    fetchProducts();
-  }, []);
 
   return (
     <div className="upload-container">
@@ -283,11 +262,9 @@ function AddProducts() {
               className="upload-image-default"
               onClick={productUploadImage}
             />
-
             <input
               type="file"
               ref={inputRef}
-              className="product-upload-choose-file"
               name="image"
               onChange={handleImageChange}
               hidden
@@ -306,7 +283,6 @@ function AddProducts() {
             className="form-control"
             value={product.name}
             onChange={handleChange}
-            required
           />
         </div>
         <div className="col-md-6 mt-2">
@@ -317,7 +293,6 @@ function AddProducts() {
             className="form-control"
             value={product.description}
             onChange={handleChange}
-            required
           />
         </div>
         <div className="col-md-1 mt-2">
@@ -329,7 +304,6 @@ function AddProducts() {
             value={product.count}
             onChange={handleChange}
             min={0}
-            required
           />
         </div>
         <div className="col-md-1 mt-2">
@@ -341,7 +315,6 @@ function AddProducts() {
             value={product.price}
             onChange={handleChange}
             min={0}
-            required
           />
         </div>
         <div className="col-md-1 mt-2">
@@ -352,7 +325,6 @@ function AddProducts() {
             className="form-control"
             value={product.discount}
             onChange={handleChange}
-            required
             min={0}
           />
         </div>
@@ -370,7 +342,6 @@ function AddProducts() {
       {/* Product history */}
       <div className="row">
         <div className="product-add-history">
-          {/* {console.log(products)} */}
           {products.map((p) => (
             <div key={p._id} className="outer-card">
               <div className="product-card">
@@ -409,6 +380,7 @@ function AddProducts() {
           ))}
         </div>
       </div>
+
       {toast.show && (
         <ToastMessage
           message={toast.message}
