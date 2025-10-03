@@ -94,7 +94,7 @@ function Products() {
         </div>
       </div>
 
-      <div className="d-flex justify-content-center align-items-center my-3">
+      <div className="d-flex justify-content-center align-items-center mt-2 mb-2">
         {/* Bootstrap Pagination */}
         {totalPages > 1 && (
           <nav aria-label="Product page navigation" className="my-3 mt-auto">
@@ -134,7 +134,7 @@ function Products() {
         )}
       </div>
 
-      <div className="d-flex justify-content-center align-items-center my-3">
+      <div className="d-flex justify-content-center align-items-center mt-2 mb-2">
         {/* sort filter */}
         <div className="dropdown ms-3">
           <button
