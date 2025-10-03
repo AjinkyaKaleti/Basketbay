@@ -12,6 +12,7 @@ function Products() {
   const [page, setPage] = useState(1); // current page
   const [totalPages, setTotalPages] = useState(1); // total pages
   const limit = 6; // how many products per page (adjust as you like)
+  const [sortBy, setSortBy] = useState("latest");
 
   const handleAddToCart = (product) => {
     setProducts((prevProducts) => {
@@ -63,7 +64,7 @@ function Products() {
     const fetchProducts = async () => {
       try {
         const res = await axios.get(
-          `${process.env.REACT_APP_SERVER_URL}/api/products?page=${page}&limit=${limit}`
+          `${process.env.REACT_APP_SERVER_URL}/api/products?page=${page}&limit=${limit}&sort=${sortBy}`
         );
         const productsArray = res.data.products || [];
         const productsWithImages = productsArray.map((p) => ({
@@ -79,7 +80,7 @@ function Products() {
       }
     };
     fetchProducts();
-  }, [page, setProducts]);
+  }, [page, sortBy, setProducts]);
 
   // Generate an array of page numbers for buttons
   const pageNumbers = [];
@@ -93,43 +94,98 @@ function Products() {
         </div>
       </div>
 
-      {/* Bootstrap Pagination */}
-      {totalPages > 1 && (
-        <nav aria-label="Product page navigation" className="my-3 mt-auto">
-          <ul className="pagination justify-content-center">
-            <li className={`page-item ${page === 1 ? "disabled" : ""}`}>
-              <button
-                className="page-link"
-                onClick={() => setPage((p) => p - 1)}
-              >
-                Previous
-              </button>
-            </li>
-
-            {pageNumbers.map((num) => (
-              <li
-                key={num}
-                className={`page-item ${num === page ? "active" : ""}`}
-              >
-                <button className="page-link" onClick={() => setPage(num)}>
-                  {num}
+      <div className="d-flex justify-content-between align-items-center my-3">
+        {/* Bootstrap Pagination */}
+        {totalPages > 1 && (
+          <nav aria-label="Product page navigation" className="my-3 mt-auto">
+            <ul className="pagination justify-content-center">
+              <li className={`page-item ${page === 1 ? "disabled" : ""}`}>
+                <button
+                  className="page-link"
+                  onClick={() => setPage((p) => p - 1)}
+                >
+                  Previous
                 </button>
               </li>
-            ))}
 
-            <li
-              className={`page-item ${page === totalPages ? "disabled" : ""}`}
-            >
-              <button
-                className="page-link"
-                onClick={() => setPage((p) => p + 1)}
+              {pageNumbers.map((num) => (
+                <li
+                  key={num}
+                  className={`page-item ${num === page ? "active" : ""}`}
+                >
+                  <button className="page-link" onClick={() => setPage(num)}>
+                    {num}
+                  </button>
+                </li>
+              ))}
+
+              <li
+                className={`page-item ${page === totalPages ? "disabled" : ""}`}
               >
-                Next
+                <button
+                  className="page-link"
+                  onClick={() => setPage((p) => p + 1)}
+                >
+                  Next
+                </button>
+              </li>
+            </ul>
+          </nav>
+        )}
+
+        {/* sort filter */}
+        <div className="dropdown ms-3">
+          <button
+            className="btn btn-outline-secondary dropdown-toggle"
+            type="button"
+            id="sortDropdown"
+            data-bs-toggle="dropdown"
+            aria-expanded="false"
+          >
+            Sort By:{" "}
+            {sortBy === "latest"
+              ? "Latest"
+              : sortBy === "low-high"
+              ? "Price: Low to High"
+              : "Price: High to Low"}
+          </button>
+          <ul className="dropdown-menu" aria-labelledby="sortDropdown">
+            <li>
+              <button
+                className="dropdown-item"
+                onClick={() => setSortBy("latest")}
+              >
+                Latest{" "}
+                {sortBy === "latest" && (
+                  <span className="sort-tickmark">✔</span>
+                )}
+              </button>
+            </li>
+            <li>
+              <button
+                className="dropdown-item"
+                onClick={() => setSortBy("low-high")}
+              >
+                Price: Low to High{" "}
+                {sortBy === "low-high" && (
+                  <span className="sort-tickmark">✔</span>
+                )}
+              </button>
+            </li>
+            <li>
+              <button
+                className="dropdown-item"
+                onClick={() => setSortBy("high-low")}
+              >
+                Price: High to Low{" "}
+                {sortBy === "high-low" && (
+                  <span className="sort-tickmark">✔</span>
+                )}
               </button>
             </li>
           </ul>
-        </nav>
-      )}
+        </div>
+      </div>
 
       <div className="product-container">
         {Array.isArray(products) && products.length > 0 ? (
