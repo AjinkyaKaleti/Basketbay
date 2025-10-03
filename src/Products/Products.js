@@ -132,59 +132,57 @@ function Products() {
             </ul>
           </nav>
         )}
+      </div>
 
-        {/* sort filter */}
-        <div className="dropdown ms-3">
-          <button
-            className="btn btn-outline-secondary dropdown-toggle"
-            type="button"
-            id="sortDropdown"
-            data-bs-toggle="dropdown"
-            aria-expanded="false"
-          >
-            Sort By:{" "}
-            {sortBy === "latest"
-              ? "Latest"
-              : sortBy === "low-high"
-              ? "Price: Low to High"
-              : "Price: High to Low"}
-          </button>
-          <ul className="dropdown-menu" aria-labelledby="sortDropdown">
-            <li>
-              <button
-                className="dropdown-item"
-                onClick={() => setSortBy("latest")}
-              >
-                Latest{" "}
-                {sortBy === "latest" && (
-                  <span className="sort-tickmark">✔</span>
-                )}
-              </button>
-            </li>
-            <li>
-              <button
-                className="dropdown-item"
-                onClick={() => setSortBy("low-high")}
-              >
-                Price: Low to High{" "}
-                {sortBy === "low-high" && (
-                  <span className="sort-tickmark">✔</span>
-                )}
-              </button>
-            </li>
-            <li>
-              <button
-                className="dropdown-item"
-                onClick={() => setSortBy("high-low")}
-              >
-                Price: High to Low{" "}
-                {sortBy === "high-low" && (
-                  <span className="sort-tickmark">✔</span>
-                )}
-              </button>
-            </li>
-          </ul>
-        </div>
+      {/* sort filter */}
+      <div className="dropdown ms-3">
+        <button
+          className="btn btn-outline-primary dropdown-toggle"
+          type="button"
+          id="sortDropdown"
+          data-bs-toggle="dropdown"
+          aria-expanded="false"
+        >
+          Sort By:{" "}
+          {sortBy === "latest"
+            ? "Latest"
+            : sortBy === "low-high"
+            ? "Price: Low to High"
+            : "Price: High to Low"}
+        </button>
+        <ul className="dropdown-menu" aria-labelledby="sortDropdown">
+          <li>
+            <button
+              className="dropdown-item"
+              onClick={() => setSortBy("latest")}
+            >
+              Latest{" "}
+              {sortBy === "latest" && <span className="sort-tickmark">✔</span>}
+            </button>
+          </li>
+          <li>
+            <button
+              className="dropdown-item"
+              onClick={() => setSortBy("low-high")}
+            >
+              Price: Low to High{" "}
+              {sortBy === "low-high" && (
+                <span className="sort-tickmark">✔</span>
+              )}
+            </button>
+          </li>
+          <li>
+            <button
+              className="dropdown-item"
+              onClick={() => setSortBy("high-low")}
+            >
+              Price: High to Low{" "}
+              {sortBy === "high-low" && (
+                <span className="sort-tickmark">✔</span>
+              )}
+            </button>
+          </li>
+        </ul>
       </div>
 
       <div className="product-container">
