@@ -10,6 +10,10 @@ import ToastMessage from "../ToastMessage/ToastMessage";
 function AddProducts() {
   const { products, setProducts, toast, setToast } = useContext(Context);
 
+  const [page, setPage] = useState(1); // current page
+  const [totalPages, setTotalPages] = useState(1); // total pages
+  const limit = 6; // how many products per page (adjust as you like)
+
   const [product, setProduct] = useState({
     name: "",
     description: "",
@@ -213,6 +217,32 @@ function AddProducts() {
     }
   };
 
+  useEffect(() => {
+    const fetchProducts = async () => {
+      try {
+        const res = await axios.get(
+          `${process.env.REACT_APP_SERVER_URL}/api/products?page=${page}&limit=${limit}`
+        );
+        const productsArray = res.data.products || [];
+        const productsWithImages = productsArray.map((p) => ({
+          ...p,
+          image: getProductImage(p.image || p.imageUrl),
+          initialStock: p.count,
+        }));
+        setProducts(productsWithImages);
+        setTotalPages(res.data.totalPages || 1);
+      } catch (err) {
+        console.error("Error fetching products", err);
+        setProducts([]); // fallback to empty array
+      }
+    };
+    fetchProducts();
+  }, [page, setProducts]);
+
+  // Generate an array of page numbers for buttons
+  const pageNumbers = [];
+  for (let i = 1; i <= totalPages; i++) pageNumbers.push(i);
+
   return (
     <div className="upload-container">
       <div className="row py-1 add-product-title text-center">
@@ -314,6 +344,44 @@ function AddProducts() {
           </button>
         </div>
       </div>
+
+      {/* Bootstrap Pagination */}
+      {totalPages > 1 && (
+        <nav aria-label="Product page navigation" className="my-3 mt-auto">
+          <ul className="pagination justify-content-center">
+            <li className={`page-item ${page === 1 ? "disabled" : ""}`}>
+              <button
+                className="page-link"
+                onClick={() => setPage((p) => p - 1)}
+              >
+                Previous
+              </button>
+            </li>
+
+            {pageNumbers.map((num) => (
+              <li
+                key={num}
+                className={`page-item ${num === page ? "active" : ""}`}
+              >
+                <button className="page-link" onClick={() => setPage(num)}>
+                  {num}
+                </button>
+              </li>
+            ))}
+
+            <li
+              className={`page-item ${page === totalPages ? "disabled" : ""}`}
+            >
+              <button
+                className="page-link"
+                onClick={() => setPage((p) => p + 1)}
+              >
+                Next
+              </button>
+            </li>
+          </ul>
+        </nav>
+      )}
 
       {/* Product history */}
       <div className="row">
