@@ -347,7 +347,7 @@ function AddProducts() {
 
       {/* Bootstrap Pagination */}
       {totalPages > 1 && (
-        <nav aria-label="Product page navigation" className="my-3 mt-auto">
+        <nav aria-label="Product page navigation" className="my-3 mt-3">
           <ul className="pagination justify-content-center">
             <li className={`page-item ${page === 1 ? "disabled" : ""}`}>
               <button
