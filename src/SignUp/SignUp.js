@@ -18,7 +18,7 @@ import ToastMessage from "../ToastMessage/ToastMessage";
 
 function SignUp() {
   const firstname = useRef(null);
-  const { formValues, setFormValues, setView, toast, setToast } =
+  const { formValues, setFormValues, setView, toast, setToast, serverUrl } =
     useContext(Context);
   useEffect(() => {
     firstname.current.focus(); // Focus first load
@@ -159,12 +159,9 @@ function SignUp() {
         message: `${formValues.email}`,
         type: "success",
       });
-      await axios.post(
-        `${process.env.REACT_APP_SERVER_URL}/api/auth/send-otp`,
-        {
-          email: formValues.email,
-        }
-      );
+      await axios.post(`${serverUrl}/api/auth/send-otp`, {
+        email: formValues.email,
+      });
 
       setToast({
         show: true,
@@ -183,13 +180,10 @@ function SignUp() {
 
   const verifyOtp = async () => {
     try {
-      const { data } = await axios.post(
-        `${process.env.REACT_APP_SERVER_URL}/api/auth/verify-otp`,
-        {
-          email: formValues.email,
-          otp: formValues.otp,
-        }
-      );
+      const { data } = await axios.post(`${serverUrl}/api/auth/verify-otp`, {
+        email: formValues.email,
+        otp: formValues.otp,
+      });
       if (data.success) {
         setIsOtpVerified(true);
         setOtpSent(false); // enable resend OTP after success
@@ -224,7 +218,7 @@ function SignUp() {
 
     try {
       const { data } = await axios.post(
-        `${process.env.REACT_APP_SERVER_URL}/api/auth/signup`,
+        `${serverUrl}/api/auth/signup`,
         formValues
       );
 

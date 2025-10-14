@@ -29,6 +29,7 @@ function App() {
     setIsLogoClick,
     handleLogout,
     logout,
+    serverUrl,
   } = useContext(Context);
 
   const logoRef = useRef(null);
@@ -131,10 +132,9 @@ function App() {
 
   const handleLogin = async () => {
     try {
-      const response = await axios.post(
-        `${process.env.REACT_APP_SERVER_URL}/api/auth/admin`,
-        { password: password.trim() }
-      );
+      const response = await axios.post(`${serverUrl}/api/auth/admin`, {
+        password: password.trim(),
+      });
       if (response.data.success) {
         alert(response.data.msg);
         setIsLogoClick(true);
