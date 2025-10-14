@@ -40,7 +40,6 @@ function Login() {
 
   //----------------Send OTP------------------
   const sendOtp = async () => {
-    console.log(`REACT_APP_SERVER_URL: ${process.env.REACT_APP_SERVER_URL}`);
     if (!username)
       return setToast({
         show: true,
@@ -51,6 +50,7 @@ function Login() {
     try {
       // Find email if user entered mobile number
       let email = username.includes("@") ? username : "";
+      alert(`REACT_APP_SERVER_URL: ${process.env.REACT_APP_SERVER_URL}`);
       if (!email) {
         const res = await axios.post(
           `${process.env.REACT_APP_SERVER_URL}/api/auth/find-email-by-mobile`,
