@@ -6,11 +6,7 @@ function CustomerProfile({ show, handleClose }) {
   const { formValues } = useContext(Context);
 
   if (!formValues.isLoggedIn) return null;
-
-<<<<<<< HEAD
-=======
   console.log(formValues);
->>>>>>> f3d6455f9be41e902a033d33d2c3d78f5d925657
   return (
     <Modal show={show} onHide={handleClose} centered>
       <Modal.Header closeButton>
