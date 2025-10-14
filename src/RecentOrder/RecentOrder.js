@@ -10,7 +10,11 @@ function RecentOrder() {
   useEffect(() => {
     if (view === "recentOrders" && formValues && formValues._id) {
       axios
+<<<<<<< HEAD
         .get(`${process.env.REACT_APP_SERVER_URL}/api/orders/${formValues._id}`)
+=======
+        .get(`http://localhost:5000/api/orders/${formValues._id}`)
+>>>>>>> f3d6455f9be41e902a033d33d2c3d78f5d925657
         .then((res) => setRecentOrders(res.data))
         .catch((err) => console.error(err));
     }
@@ -59,8 +63,11 @@ function RecentOrder() {
             0
           );
 
+<<<<<<< HEAD
           //console.log(orders);
 
+=======
+>>>>>>> f3d6455f9be41e902a033d33d2c3d78f5d925657
           return (
             <div
               className="accordion-item col-xl-10 col-lg-10 col-md-12 col-sm-12 offset-xl-1 offset-lg-1 my-1"
@@ -102,21 +109,31 @@ function RecentOrder() {
                         year: "numeric",
                       });
 
+<<<<<<< HEAD
                       const statusColor =
                         order.status.toLowerCase() === "completed" || "paid"
                           ? "green"
                           : "orange";
                       const paymentMethod = order.paymentMethod || "N/A";
 
+=======
+>>>>>>> f3d6455f9be41e902a033d33d2c3d78f5d925657
                       return (
                         <div
                           key={product._id}
                           className="border rounded p-2 mb-2 bg-light d-flex flex-column flex-md-row align-items-center"
                         >
+<<<<<<< HEAD
                           {product.image && (
                             <div>
                               <img
                                 src={product.image}
+=======
+                          {product.imageUrl && (
+                            <div>
+                              <img
+                                src={product.imageUrl}
+>>>>>>> f3d6455f9be41e902a033d33d2c3d78f5d925657
                                 alt={product.name}
                                 style={{
                                   width: "60px",
@@ -128,6 +145,7 @@ function RecentOrder() {
                           )}
                           <div>
                             <b>Order ID:</b> {order._id} | <b>Status:</b>{" "}
+<<<<<<< HEAD
                             <span
                               style={{ color: statusColor, fontWeight: "bold" }}
                             >
@@ -136,6 +154,10 @@ function RecentOrder() {
                             </span>{" "}
                             | <b>Payment:</b> {paymentMethod} |{" "}
                             <b>Placed At:</b> {orderTime} | <b>Name: </b>
+=======
+                            {order.status} | <b>Placed At:</b> {orderTime} |{" "}
+                            <b>Name: </b>
+>>>>>>> f3d6455f9be41e902a033d33d2c3d78f5d925657
                             {product.name} | <b>Qty: </b> {product.quantity} |{" "}
                             <b>Price:</b> ₹{product.price} <b>| Discount:</b>{" "}
                             {product.discount || 0}% <b>| Final:</b> ₹

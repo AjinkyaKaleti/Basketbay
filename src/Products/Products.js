@@ -12,7 +12,10 @@ function Products() {
   const [page, setPage] = useState(1); // current page
   const [totalPages, setTotalPages] = useState(1); // total pages
   const limit = 6; // how many products per page (adjust as you like)
+<<<<<<< HEAD
   const [sortBy, setSortBy] = useState("latest");
+=======
+>>>>>>> f3d6455f9be41e902a033d33d2c3d78f5d925657
 
   const handleAddToCart = (product) => {
     setProducts((prevProducts) => {
@@ -64,7 +67,11 @@ function Products() {
     const fetchProducts = async () => {
       try {
         const res = await axios.get(
+<<<<<<< HEAD
           `${process.env.REACT_APP_SERVER_URL}/api/products?page=${page}&limit=${limit}&sort=${sortBy}`
+=======
+          `/api/products?page=${page}&limit=${limit}`
+>>>>>>> f3d6455f9be41e902a033d33d2c3d78f5d925657
         );
         const productsArray = res.data.products || [];
         const productsWithImages = productsArray.map((p) => ({
@@ -80,7 +87,11 @@ function Products() {
       }
     };
     fetchProducts();
+<<<<<<< HEAD
   }, [page, sortBy, setProducts]);
+=======
+  }, [page, setProducts]);
+>>>>>>> f3d6455f9be41e902a033d33d2c3d78f5d925657
 
   // Generate an array of page numbers for buttons
   const pageNumbers = [];
@@ -94,6 +105,7 @@ function Products() {
         </div>
       </div>
 
+<<<<<<< HEAD
       <div className="d-flex justify-content-center align-items-center mt-2 mb-2">
         {/* Bootstrap Pagination */}
         {totalPages > 1 && (
@@ -188,6 +200,45 @@ function Products() {
           </ul>
         </div>
       </div>
+=======
+      {/* Bootstrap Pagination */}
+      {totalPages > 1 && (
+        <nav aria-label="Product page navigation" className="my-3 mt-auto">
+          <ul className="pagination justify-content-center">
+            <li className={`page-item ${page === 1 ? "disabled" : ""}`}>
+              <button
+                className="page-link"
+                onClick={() => setPage((p) => p - 1)}
+              >
+                Previous
+              </button>
+            </li>
+
+            {pageNumbers.map((num) => (
+              <li
+                key={num}
+                className={`page-item ${num === page ? "active" : ""}`}
+              >
+                <button className="page-link" onClick={() => setPage(num)}>
+                  {num}
+                </button>
+              </li>
+            ))}
+
+            <li
+              className={`page-item ${page === totalPages ? "disabled" : ""}`}
+            >
+              <button
+                className="page-link"
+                onClick={() => setPage((p) => p + 1)}
+              >
+                Next
+              </button>
+            </li>
+          </ul>
+        </nav>
+      )}
+>>>>>>> f3d6455f9be41e902a033d33d2c3d78f5d925657
 
       <div className="product-container">
         {Array.isArray(products) && products.length > 0 ? (

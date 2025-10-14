@@ -51,12 +51,18 @@ function Login() {
       // Find email if user entered mobile number
       let email = username.includes("@") ? username : "";
       if (!email) {
+<<<<<<< HEAD
         const res = await axios.post(
           `${process.env.REACT_APP_SERVER_URL}/api/auth/find-email-by-mobile`,
           {
             mobile: username,
           }
         );
+=======
+        const res = await axios.post("/api/auth/find-email-by-mobile", {
+          mobile: username,
+        });
+>>>>>>> f3d6455f9be41e902a033d33d2c3d78f5d925657
         email = res.data.email;
         if (!email)
           return setToast({
@@ -68,10 +74,14 @@ function Login() {
 
       setEmailToSendOtp(email);
 
+<<<<<<< HEAD
       await axios.post(
         `${process.env.REACT_APP_SERVER_URL}/api/auth/send-otp`,
         { email }
       );
+=======
+      await axios.post("/api/auth/send-otp", { email });
+>>>>>>> f3d6455f9be41e902a033d33d2c3d78f5d925657
       setToast({
         show: true,
         message: `OTP sent to ${email}`,
@@ -97,6 +107,7 @@ function Login() {
       });
 
     try {
+<<<<<<< HEAD
       const res = await axios.post(
         `${process.env.REACT_APP_SERVER_URL}/api/auth/verify-otp`,
         {
@@ -112,6 +123,17 @@ function Login() {
             email: emailToSendOtp,
           }
         );
+=======
+      const res = await axios.post("/api/auth/verify-otp", {
+        email: emailToSendOtp,
+        otp,
+      });
+
+      if (res.data.success) {
+        const loginRes = await axios.post("/api/auth/otp-login", {
+          email: emailToSendOtp,
+        });
+>>>>>>> f3d6455f9be41e902a033d33d2c3d78f5d925657
 
         const backendUser = loginRes.data.user;
 

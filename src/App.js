@@ -6,6 +6,10 @@ import Login from "./Login/Login";
 import SignUp from "./SignUp/SignUp";
 import Orders from "./Orders/Orders";
 import RecentOrder from "./RecentOrder/RecentOrder";
+<<<<<<< HEAD
+=======
+// import Error from "./Error/Error";
+>>>>>>> f3d6455f9be41e902a033d33d2c3d78f5d925657
 import "./App.css";
 import Products from "./Products/Products";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -37,7 +41,10 @@ function App() {
   const [show, setShow] = useState(false);
   const [password, setPassword] = useState("");
   const [showProfileModal, setShowProfileModal] = useState(false);
+<<<<<<< HEAD
   const [passwordVisible, setPasswordVisible] = useState(false);
+=======
+>>>>>>> f3d6455f9be41e902a033d33d2c3d78f5d925657
 
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
@@ -132,7 +139,11 @@ function App() {
   const handleLogin = async () => {
     try {
       const response = await axios.post(
+<<<<<<< HEAD
         `${process.env.REACT_APP_SERVER_URL}/api/auth/admin`,
+=======
+        "http://localhost:5000/api/auth/admin",
+>>>>>>> f3d6455f9be41e902a033d33d2c3d78f5d925657
         { password: password.trim() }
       );
       if (response.data.success) {
@@ -203,18 +214,30 @@ function App() {
           )}
         </div>
       </div>
+<<<<<<< HEAD
+=======
+
+>>>>>>> f3d6455f9be41e902a033d33d2c3d78f5d925657
       <div className="app-container">
         <div>
           <Home />
           {isLogoclick ? <AdminTabs /> : renderContent()}
         </div>
       </div>
+<<<<<<< HEAD
+=======
+
+>>>>>>> f3d6455f9be41e902a033d33d2c3d78f5d925657
       {formValues.isLoggedIn && (
         <CustomerProfile
           show={showProfileModal}
           handleClose={handleCloseProfile}
         />
       )}
+<<<<<<< HEAD
+=======
+
+>>>>>>> f3d6455f9be41e902a033d33d2c3d78f5d925657
       <Modal show={show} onHide={handleClose} size="sm" centered>
         <Modal.Header closeButton>
           <Modal.Title>Admin Login</Modal.Title>
@@ -224,6 +247,7 @@ function App() {
             <Form.Group controlId="adminPassword">
               <Form.Label>Password</Form.Label>
               <Form.Control
+<<<<<<< HEAD
                 type={passwordVisible ? "text" : "password"}
                 placeholder="Enter admin password"
                 value={password}
@@ -234,6 +258,12 @@ function App() {
                 onMouseLeave={() => {
                   setPasswordVisible(false);
                 }}
+=======
+                type="text"
+                placeholder="Enter admin password"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+>>>>>>> f3d6455f9be41e902a033d33d2c3d78f5d925657
               />
             </Form.Group>
           </Form>

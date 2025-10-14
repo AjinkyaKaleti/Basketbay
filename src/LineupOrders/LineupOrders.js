@@ -15,9 +15,13 @@ function LineupOrders() {
   useEffect(() => {
     const fetchOrders = async () => {
       try {
+<<<<<<< HEAD
         const res = await axios.get(
           `${process.env.REACT_APP_SERVER_URL}/api/orders/all`
         ); // backend route
+=======
+        const res = await axios.get("/api/orders/all"); // backend route
+>>>>>>> f3d6455f9be41e902a033d33d2c3d78f5d925657
         setOrders(res.data.orders || []);
       } catch (err) {
         console.error("Error fetching orders", err);
