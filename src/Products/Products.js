@@ -6,7 +6,7 @@ import { getProductImage } from "../utils/getProductImage";
 import ToastMessage from "../ToastMessage/ToastMessage";
 
 function Products() {
-  const { products, setProducts, setOrders, toast, setToast, serverUrl } =
+  const { products, setProducts, setOrders, toast, setToast } =
     useContext(Context);
 
   const [page, setPage] = useState(1); // current page
@@ -64,7 +64,7 @@ function Products() {
     const fetchProducts = async () => {
       try {
         const res = await axios.get(
-          `${serverUrl}/api/products?page=${page}&limit=${limit}&sort=${sortBy}`
+          `${process.env.REACT_APP_SERVER_URL}/api/products?page=${page}&limit=${limit}&sort=${sortBy}`
         );
         const productsArray = res.data.products || [];
         const productsWithImages = productsArray.map((p) => ({

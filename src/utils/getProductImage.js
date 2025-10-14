@@ -1,7 +1,4 @@
-import { useContext } from "react";
-import Context from "../Context/Context";
-
-const { serverUrl } = useContext(Context);
+const SERVER_URL = process.env.REACT_APP_SERVER_URL || "http://localhost:5000";
 
 /**
  * Returns a full image URL for a product.
@@ -10,5 +7,5 @@ const { serverUrl } = useContext(Context);
 export function getProductImage(imagePath) {
   if (!imagePath) return "/add_image_default.jpg";
   if (imagePath.startsWith("http")) return imagePath;
-  return `${serverUrl}${imagePath}`;
+  return `${SERVER_URL}${imagePath}`;
 }

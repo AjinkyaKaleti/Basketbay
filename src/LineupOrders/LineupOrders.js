@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import axios from "axios";
 import "./LineupOrders.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -7,17 +7,17 @@ import {
   faChevronDown,
   faChevronUp,
 } from "@fortawesome/free-solid-svg-icons";
-import Context from "../Context/Context";
 
 function LineupOrders() {
   const [orders, setOrders] = useState([]);
   const [expandedRow, setExpandedRow] = useState(null);
-  const { serverUrl } = useContext(Context);
 
   useEffect(() => {
     const fetchOrders = async () => {
       try {
-        const res = await axios.get(`${serverUrl}/api/orders/all`); // backend route
+        const res = await axios.get(
+          `${process.env.REACT_APP_SERVER_URL}/api/orders/all`
+        ); // backend route
         setOrders(res.data.orders || []);
       } catch (err) {
         console.error("Error fetching orders", err);

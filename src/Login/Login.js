@@ -20,7 +20,6 @@ function Login() {
     setSelectedMenu,
     toast,
     setToast,
-    serverUrl,
   } = useContext(Context);
 
   const userNameRef = useRef(null);
@@ -53,7 +52,7 @@ function Login() {
       let email = username.includes("@") ? username : "";
       if (!email) {
         const res = await axios.post(
-          `${serverUrl}/api/auth/find-email-by-mobile`,
+          `${process.env.REACT_APP_SERVER_URL}/api/auth/find-email-by-mobile`,
           {
             mobile: username,
           }
@@ -69,7 +68,10 @@ function Login() {
 
       setEmailToSendOtp(email);
 
-      await axios.post(`${serverUrl}/api/auth/send-otp`, { email });
+      await axios.post(
+        `${process.env.REACT_APP_SERVER_URL}/api/auth/send-otp`,
+        { email }
+      );
       setToast({
         show: true,
         message: `OTP sent to ${email}`,
@@ -95,15 +97,21 @@ function Login() {
       });
 
     try {
-      const res = await axios.post(`${serverUrl}/api/auth/verify-otp`, {
-        email: emailToSendOtp,
-        otp,
-      });
+      const res = await axios.post(
+        `${process.env.REACT_APP_SERVER_URL}/api/auth/verify-otp`,
+        {
+          email: emailToSendOtp,
+          otp,
+        }
+      );
 
       if (res.data.success) {
-        const loginRes = await axios.post(`${serverUrl}/api/auth/otp-login`, {
-          email: emailToSendOtp,
-        });
+        const loginRes = await axios.post(
+          `${process.env.REACT_APP_SERVER_URL}/api/auth/otp-login`,
+          {
+            email: emailToSendOtp,
+          }
+        );
 
         const backendUser = loginRes.data.user;
 

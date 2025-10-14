@@ -21,7 +21,6 @@ function Orders() {
     setToast,
     isPaymentModalVisible,
     setPaymentModalVisible,
-    serverUrl,
   } = useContext(Context);
 
   const [selectedAmount, setSelectedAmount] = useState(0);
@@ -99,11 +98,16 @@ function Orders() {
     };
 
     try {
-      const res = await axios.post(`${serverUrl}/api/orders`, orderData);
+      const res = await axios.post(
+        `${process.env.REACT_APP_SERVER_URL}/api/orders`,
+        orderData
+      );
       const newOrder = res.data.order;
 
       // refresh products
-      const refreshed = await axios.get(`${serverUrl}/api/products`);
+      const refreshed = await axios.get(
+        `${process.env.REACT_APP_SERVER_URL}/api/products`
+      );
       const productsArray = refreshed.data.products || refreshed.data;
       setProducts(productsArray);
 

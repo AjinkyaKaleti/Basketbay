@@ -4,13 +4,13 @@ import axios from "axios";
 import "./RecentOrder.css";
 
 function RecentOrder() {
-  const { formValues, recentOrders, setRecentOrders, view, serverUrl } =
+  const { formValues, recentOrders, setRecentOrders, view } =
     useContext(Context);
 
   useEffect(() => {
     if (view === "recentOrders" && formValues && formValues._id) {
       axios
-        .get(`${serverUrl}/api/orders/${formValues._id}`)
+        .get(`${process.env.REACT_APP_SERVER_URL}/api/orders/${formValues._id}`)
         .then((res) => setRecentOrders(res.data))
         .catch((err) => console.error(err));
     }

@@ -9,8 +9,7 @@ function Payment({
   onPaymentCancel,
   isVisible = true,
 }) {
-  const { setPaymentModalVisible, isPaymentModalVisible, serverUrl } =
-    useContext(Context);
+  const { setPaymentModalVisible, isPaymentModalVisible } = useContext(Context);
 
   const handleCloseModal = () => {
     if (isPaymentModalVisible) {
@@ -29,9 +28,10 @@ function Payment({
   const handleRazorpay = async () => {
     try {
       // 1. Call backend to create Razorpay order
-      const res = await axios.post(`${serverUrl}/api/payment/payment-gateway`, {
-        amount,
-      });
+      const res = await axios.post(
+        `${process.env.REACT_APP_SERVER_URL}/api/payment/payment-gateway`,
+        { amount }
+      );
       const order = res.data;
 
       // 2. Razorpay options
@@ -45,7 +45,7 @@ function Payment({
         handler: async function (response) {
           // verify payment with backend
           const verifyRes = await axios.post(
-            `${serverUrl}/api/payment/verify-payment`,
+            `${process.env.REACT_APP_SERVER_URL}/api/payment/verify-payment`,
             response
           );
 

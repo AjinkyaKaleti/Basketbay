@@ -8,8 +8,7 @@ import { getProductImage } from "../utils/getProductImage";
 import ToastMessage from "../ToastMessage/ToastMessage";
 
 function AddProducts() {
-  const { products, setProducts, toast, setToast, serverUrl } =
-    useContext(Context);
+  const { products, setProducts, toast, setToast } = useContext(Context);
 
   const [page, setPage] = useState(1); // current page
   const [totalPages, setTotalPages] = useState(1); // total pages
@@ -83,7 +82,7 @@ function AddProducts() {
         formData.append("image", image);
 
         const uploadRes = await axios.post(
-          `${serverUrl}/api/upload/image`,
+          `${process.env.REACT_APP_SERVER_URL}/api/upload/image`,
           formData,
           { headers: { "Content-Type": "multipart/form-data" } }
         );
@@ -103,7 +102,10 @@ function AddProducts() {
         imageUrl: imageUrl || "/add_image_default.jpg",
       };
 
-      const res = await axios.post(`${serverUrl}/api/products`, fd);
+      const res = await axios.post(
+        `${process.env.REACT_APP_SERVER_URL}/api/products`,
+        fd
+      );
 
       const newProduct = res.data.product;
       setProducts((prev) => [newProduct, ...prev]);
@@ -131,8 +133,12 @@ function AddProducts() {
   //delete product
   const handleDeleteProduct = async (id) => {
     try {
-      await axios.delete(`${serverUrl}/api/products/${id}`);
-      const refreshed = await axios.get(`${serverUrl}/api/products`);
+      await axios.delete(
+        `${process.env.REACT_APP_SERVER_URL}/api/products/${id}`
+      );
+      const refreshed = await axios.get(
+        `${process.env.REACT_APP_SERVER_URL}/api/products`
+      );
       setProducts(refreshed.data.products || refreshed.data);
 
       setToast({
@@ -153,8 +159,12 @@ function AddProducts() {
   //increase product quantity
   const handleIncreaseProduct = async (id) => {
     try {
-      await axios.put(`${serverUrl}/api/products/increase/${id}`);
-      const refreshed = await axios.get(`${serverUrl}/api/products`);
+      await axios.put(
+        `${process.env.REACT_APP_SERVER_URL}/api/products/increase/${id}`
+      );
+      const refreshed = await axios.get(
+        `${process.env.REACT_APP_SERVER_URL}/api/products`
+      );
       setProducts(refreshed.data.products || refreshed.data);
 
       setToast({
@@ -176,7 +186,9 @@ function AddProducts() {
   const handleReduceProduct = async (id) => {
     try {
       // setProducts(updatedProducts);
-      const res = await axios.put(`${serverUrl}/api/products/decrease/${id}`);
+      const res = await axios.put(
+        `${process.env.REACT_APP_SERVER_URL}/api/products/decrease/${id}`
+      );
       const updatedProduct = res.data.product;
 
       setProducts((prev) =>
@@ -209,7 +221,7 @@ function AddProducts() {
     const fetchProducts = async () => {
       try {
         const res = await axios.get(
-          `${serverUrl}/api/products?page=${page}&limit=${limit}`
+          `${process.env.REACT_APP_SERVER_URL}/api/products?page=${page}&limit=${limit}`
         );
         const productsArray = res.data.products || [];
         const productsWithImages = productsArray.map((p) => ({
