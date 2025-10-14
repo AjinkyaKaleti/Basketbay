@@ -40,6 +40,7 @@ function Login() {
 
   //----------------Send OTP------------------
   const sendOtp = async () => {
+    console.log(`REACT_APP_SERVER_URL: ${process.env.REACT_APP_SERVER_URL}`);
     if (!username)
       return setToast({
         show: true,
