@@ -1,8 +1,4 @@
-<<<<<<< HEAD
 import React, { useState, useRef, useContext, useEffect } from "react";
-=======
-import React, { useState, useRef, useContext } from "react";
->>>>>>> f3d6455f9be41e902a033d33d2c3d78f5d925657
 import "./AddProducts.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPlus, faTrashCan, faMinus } from "@fortawesome/free-solid-svg-icons";
@@ -14,7 +10,6 @@ import ToastMessage from "../ToastMessage/ToastMessage";
 function AddProducts() {
   const { products, setProducts, toast, setToast } = useContext(Context);
 
-<<<<<<< HEAD
   const [page, setPage] = useState(1); // current page
   const [totalPages, setTotalPages] = useState(1); // total pages
   const limit = 6; // how many products per page (adjust as you like)
@@ -26,21 +21,11 @@ function AddProducts() {
     discount: null,
     count: null,
     imageUrl: "",
-=======
-  const [product, setProduct] = useState({
-    name: "",
-    description: "",
-    price: "",
-    discount: "",
-    count: "",
-    image: "",
->>>>>>> f3d6455f9be41e902a033d33d2c3d78f5d925657
   });
 
   const [image, setImage] = useState(null);
   const inputRef = useRef(null);
 
-<<<<<<< HEAD
   //reset form
   const resetForm = () => {
     setProduct({
@@ -55,8 +40,6 @@ function AddProducts() {
     if (inputRef.current) inputRef.current.value = null;
   };
 
-=======
->>>>>>> f3d6455f9be41e902a033d33d2c3d78f5d925657
   // Input change handler
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -68,10 +51,7 @@ function AddProducts() {
     const file = e.target.files[0];
     if (file) {
       setImage(file);
-<<<<<<< HEAD
     } else {
-=======
->>>>>>> f3d6455f9be41e902a033d33d2c3d78f5d925657
     }
   };
 
@@ -79,7 +59,6 @@ function AddProducts() {
     inputRef.current.click();
   };
 
-<<<<<<< HEAD
   // Check if all required fields are filled
   const isFormValid = () => {
     return (
@@ -132,41 +111,6 @@ function AddProducts() {
       setProducts((prev) => [newProduct, ...prev]);
 
       resetForm();
-=======
-  //Add product
-  const handleAddProduct = async () => {
-    try {
-      const fd = new FormData();
-      fd.append("name", product.name);
-      fd.append("description", product.description);
-      fd.append("count", product.count);
-      fd.append("price", product.price);
-      fd.append("discount", product.discount);
-      if (image) fd.append("image", image);
-
-      const res = await axios.post("/api/products", fd, {
-        headers: { "Content-Type": "multipart/form-data" },
-      });
-
-      const newProduct = res.data.product;
-
-      //When setting new product after upload
-      newProduct.image = getProductImage(newProduct.image);
-
-      setProducts((prev) => [newProduct, ...prev]);
-
-      // Reset form
-      setProduct({
-        name: "",
-        description: "",
-        count: "",
-        price: "",
-        discount: "",
-        image: "",
-      });
-      setImage(null);
-      if (inputRef.current) inputRef.current.value = "";
->>>>>>> f3d6455f9be41e902a033d33d2c3d78f5d925657
 
       setToast({
         show: true,
@@ -174,14 +118,10 @@ function AddProducts() {
         type: "success",
       });
     } catch (err) {
-<<<<<<< HEAD
       console.error(
         "Error adding product:",
         err.response || err.message || err
       );
-=======
-      console.error(err);
->>>>>>> f3d6455f9be41e902a033d33d2c3d78f5d925657
       setToast({
         show: true,
         message: "Failed to add product!",
@@ -193,17 +133,12 @@ function AddProducts() {
   //delete product
   const handleDeleteProduct = async (id) => {
     try {
-<<<<<<< HEAD
       await axios.delete(
         `${process.env.REACT_APP_SERVER_URL}/api/products/${id}`
       );
       const refreshed = await axios.get(
         `${process.env.REACT_APP_SERVER_URL}/api/products`
       );
-=======
-      await axios.delete(`/api/products/${id}`);
-      const refreshed = await axios.get("/api/products");
->>>>>>> f3d6455f9be41e902a033d33d2c3d78f5d925657
       setProducts(refreshed.data.products || refreshed.data);
 
       setToast({
@@ -224,17 +159,12 @@ function AddProducts() {
   //increase product quantity
   const handleIncreaseProduct = async (id) => {
     try {
-<<<<<<< HEAD
       await axios.put(
         `${process.env.REACT_APP_SERVER_URL}/api/products/increase/${id}`
       );
       const refreshed = await axios.get(
         `${process.env.REACT_APP_SERVER_URL}/api/products`
       );
-=======
-      await axios.put(`/api/products/increase/${id}`);
-      const refreshed = await axios.get("/api/products");
->>>>>>> f3d6455f9be41e902a033d33d2c3d78f5d925657
       setProducts(refreshed.data.products || refreshed.data);
 
       setToast({
@@ -255,30 +185,10 @@ function AddProducts() {
   // Reduce product quantity
   const handleReduceProduct = async (id) => {
     try {
-<<<<<<< HEAD
       // setProducts(updatedProducts);
       const res = await axios.put(
         `${process.env.REACT_APP_SERVER_URL}/api/products/decrease/${id}`
       );
-=======
-      // const productToUpdate = products.find((p) => p._id === id);
-      // if (!productToUpdate) return;
-
-      // await axios.put(`/api/products/decrease/${id}`);
-
-      // // Fetching latest products to ensure correct count
-      // const refreshed = await axios.get("/api/products");
-      // const productsArray = refreshed.data.products || refreshed.data;
-
-      // // Fix image mapping for all products
-      // const updatedProducts = productsArray.map((p) => ({
-      //   ...p,
-      //   image: getProductImage(p.image),
-      // }));
-
-      // setProducts(updatedProducts);
-      const res = await axios.put(`/api/products/decrease/${id}`);
->>>>>>> f3d6455f9be41e902a033d33d2c3d78f5d925657
       const updatedProduct = res.data.product;
 
       setProducts((prev) =>
@@ -286,11 +196,7 @@ function AddProducts() {
           p._id === id
             ? {
                 ...updatedProduct,
-<<<<<<< HEAD
                 image: getProductImage(updatedProduct.imageUrl),
-=======
-                image: getProductImage(updatedProduct.image),
->>>>>>> f3d6455f9be41e902a033d33d2c3d78f5d925657
               }
             : p
         )
@@ -311,7 +217,6 @@ function AddProducts() {
     }
   };
 
-<<<<<<< HEAD
   useEffect(() => {
     const fetchProducts = async () => {
       try {
@@ -338,8 +243,6 @@ function AddProducts() {
   const pageNumbers = [];
   for (let i = 1; i <= totalPages; i++) pageNumbers.push(i);
 
-=======
->>>>>>> f3d6455f9be41e902a033d33d2c3d78f5d925657
   return (
     <div className="upload-container">
       <div className="row py-1 add-product-title text-center">
@@ -363,10 +266,7 @@ function AddProducts() {
               type="file"
               ref={inputRef}
               className="product-upload-choose-file"
-<<<<<<< HEAD
               name="image"
-=======
->>>>>>> f3d6455f9be41e902a033d33d2c3d78f5d925657
               onChange={handleImageChange}
               hidden
             />
@@ -435,21 +335,16 @@ function AddProducts() {
           />
         </div>
         <div className="col-md-1 text-center mt-2">
-<<<<<<< HEAD
           <button
             className="btn btn-success"
             onClick={handleAddProduct}
             disabled={!isFormValid()}
           >
-=======
-          <button className="btn btn-success" onClick={handleAddProduct}>
->>>>>>> f3d6455f9be41e902a033d33d2c3d78f5d925657
             <FontAwesomeIcon icon={faPlus} />
           </button>
         </div>
       </div>
 
-<<<<<<< HEAD
       {/* Bootstrap Pagination */}
       {totalPages > 1 && (
         <nav aria-label="Product page navigation" className="my-3 mt-3">
@@ -492,20 +387,11 @@ function AddProducts() {
       <div className="row">
         <div className="product-add-history">
           {/* {console.log(products)} */}
-=======
-      {/* Product history */}
-      <div className="row">
-        <div className="product-add-history">
->>>>>>> f3d6455f9be41e902a033d33d2c3d78f5d925657
           {products.map((p) => (
             <div key={p._id} className="outer-card">
               <div className="product-card">
                 <div className="product-image-div">
-<<<<<<< HEAD
                   <img src={getProductImage(p.imageUrl)} alt={p.name} />
-=======
-                  <img src={getProductImage(p.image)} alt={p.name} />
->>>>>>> f3d6455f9be41e902a033d33d2c3d78f5d925657
                 </div>
                 <div className="product-price-div">
                   <b>{p.discount}%</b> &nbsp; <i>₹{p.price}</i>

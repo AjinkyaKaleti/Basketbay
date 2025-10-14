@@ -1,8 +1,4 @@
-<<<<<<< HEAD
 import React, { useContext, useState } from "react";
-=======
-import React, { useContext } from "react";
->>>>>>> f3d6455f9be41e902a033d33d2c3d78f5d925657
 import "./Orders.css";
 import Context from "../Context/Context";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -10,10 +6,7 @@ import { faTrashCan } from "@fortawesome/free-solid-svg-icons";
 import axios from "axios";
 import { getProductImage } from "../utils/getProductImage";
 import ToastMessage from "../ToastMessage/ToastMessage";
-<<<<<<< HEAD
 import Payment from "../Payment/Payment";
-=======
->>>>>>> f3d6455f9be41e902a033d33d2c3d78f5d925657
 
 function Orders() {
   const {
@@ -26,16 +19,12 @@ function Orders() {
     products,
     toast,
     setToast,
-<<<<<<< HEAD
     isPaymentModalVisible,
     setPaymentModalVisible,
   } = useContext(Context);
 
   const [selectedAmount, setSelectedAmount] = useState(0);
 
-=======
-  } = useContext(Context);
->>>>>>> f3d6455f9be41e902a033d33d2c3d78f5d925657
   // increment quantity
   const incrementCount = (id) => {
     setOrders((prev) =>
@@ -75,11 +64,8 @@ function Orders() {
   };
 
   const handleCheckout = async () => {
-<<<<<<< HEAD
     if (orders.length === 0) return;
 
-=======
->>>>>>> f3d6455f9be41e902a033d33d2c3d78f5d925657
     if (!formValues.isLoggedIn || !formValues._id) {
       setToast({
         show: true,
@@ -89,7 +75,6 @@ function Orders() {
       return;
     }
 
-<<<<<<< HEAD
     const totalAmount = Math.round(totalPayable);
     setSelectedAmount(totalAmount);
     setPaymentModalVisible(true); // open payment modal
@@ -97,8 +82,6 @@ function Orders() {
 
   //handle payment success
   const handlePaymentSuccess = async (method, razorpayResponse = null) => {
-=======
->>>>>>> f3d6455f9be41e902a033d33d2c3d78f5d925657
     const orderData = {
       customerId: formValues._id,
       products: orders.map((item) => ({
@@ -109,7 +92,6 @@ function Orders() {
         imageUrl: item.image,
         discount: item.discount || 0,
       })),
-<<<<<<< HEAD
       paymentMethod: method,
       paymentDetails: razorpayResponse, // store payment response for Razorpay
       totalAmount: selectedAmount,
@@ -126,26 +108,6 @@ function Orders() {
       const refreshed = await axios.get(
         `${process.env.REACT_APP_SERVER_URL}/api/products`
       );
-=======
-      paymentMethod: "Cash on Delivery",
-      totalAmount: orders
-        .reduce(
-          (sum, item) =>
-            sum +
-            (item.price - (item.price * (item.discount || 0)) / 100) *
-              item.count,
-          0
-        )
-        .toFixed(2),
-    };
-
-    try {
-      const res = await axios.post("/api/orders", orderData);
-      const newOrder = res.data.order;
-
-      // refresh products
-      const refreshed = await axios.get("/api/products");
->>>>>>> f3d6455f9be41e902a033d33d2c3d78f5d925657
       const productsArray = refreshed.data.products || refreshed.data;
       setProducts(productsArray);
 
@@ -170,14 +132,11 @@ function Orders() {
     }
   };
 
-<<<<<<< HEAD
   //handle payment cancel
   const handlePaymentCancel = () => {
     setToast({ show: true, message: "Payment cancelled.", type: "warning" });
   };
 
-=======
->>>>>>> f3d6455f9be41e902a033d33d2c3d78f5d925657
   const totalPayable = orders.reduce(
     (sum, item) =>
       sum +
@@ -324,7 +283,6 @@ function Orders() {
           onClose={() => setToast({ ...toast, show: false })}
         />
       )}
-<<<<<<< HEAD
 
       {isPaymentModalVisible && (
         <Payment
@@ -333,8 +291,6 @@ function Orders() {
           onPaymentCancel={handlePaymentCancel}
         />
       )}
-=======
->>>>>>> f3d6455f9be41e902a033d33d2c3d78f5d925657
     </>
   );
 }

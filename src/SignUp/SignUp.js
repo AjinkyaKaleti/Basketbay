@@ -159,18 +159,12 @@ function SignUp() {
         message: `${formValues.email}`,
         type: "success",
       });
-<<<<<<< HEAD
       await axios.post(
         `${process.env.REACT_APP_SERVER_URL}/api/auth/send-otp`,
         {
           email: formValues.email,
         }
       );
-=======
-      await axios.post("/api/auth/send-otp", {
-        email: formValues.email,
-      });
->>>>>>> f3d6455f9be41e902a033d33d2c3d78f5d925657
 
       setToast({
         show: true,
@@ -189,7 +183,6 @@ function SignUp() {
 
   const verifyOtp = async () => {
     try {
-<<<<<<< HEAD
       const { data } = await axios.post(
         `${process.env.REACT_APP_SERVER_URL}/api/auth/verify-otp`,
         {
@@ -197,12 +190,6 @@ function SignUp() {
           otp: formValues.otp,
         }
       );
-=======
-      const { data } = await axios.post("/api/auth/verify-otp", {
-        email: formValues.email,
-        otp: formValues.otp,
-      });
->>>>>>> f3d6455f9be41e902a033d33d2c3d78f5d925657
       if (data.success) {
         setIsOtpVerified(true);
         setOtpSent(false); // enable resend OTP after success
@@ -236,14 +223,10 @@ function SignUp() {
     });
 
     try {
-<<<<<<< HEAD
       const { data } = await axios.post(
         `${process.env.REACT_APP_SERVER_URL}/api/auth/signup`,
         formValues
       );
-=======
-      const { data } = await axios.post("/api/auth/signup", formValues);
->>>>>>> f3d6455f9be41e902a033d33d2c3d78f5d925657
 
       // Welcome <user>
       setToast({

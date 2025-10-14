@@ -1,7 +1,6 @@
 import React, { useContext } from "react";
 import "./Payment.css";
 import Context from "../Context/Context";
-<<<<<<< HEAD
 import axios from "axios";
 
 function Payment({
@@ -101,27 +100,6 @@ function Payment({
         </button>
       </div>
     </div>
-=======
-
-function Payment() {
-  const { setPaymentModalVisible } = useContext(Context);
-  const handleCloseModal = () => {
-    setPaymentModalVisible(false);
-  };
-  return (
-    <>
-      <div className="modal-overlay">
-        <div className="modal-content">
-          <button className="modal-close" onClick={handleCloseModal}>
-            &times;
-          </button>
-          <h2>Payment Details</h2>
-          {/* Add your payment details here */}
-          <p>Thank you for your purchase!</p>
-        </div>
-      </div>
-    </>
->>>>>>> f3d6455f9be41e902a033d33d2c3d78f5d925657
   );
 }
 

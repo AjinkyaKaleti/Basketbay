@@ -51,13 +51,9 @@ export default function ContextData(props) {
     // fetch products from backend on mount
     const fetchProducts = async () => {
       try {
-<<<<<<< HEAD
         const res = await axios.get(
           `${process.env.REACT_APP_SERVER_URL}/api/products`
         );
-=======
-        const res = await axios.get("/api/products");
->>>>>>> f3d6455f9be41e902a033d33d2c3d78f5d925657
         // res.data.products is array if API returns { products: [...] }
         setProducts(res.data.products || res.data);
       } catch (err) {
@@ -71,11 +67,7 @@ export default function ContextData(props) {
   useEffect(() => {
     if (formValues && formValues._id) {
       axios
-<<<<<<< HEAD
         .get(`${process.env.REACT_APP_SERVER_URL}/api/orders/${formValues._id}`)
-=======
-        .get(`http://localhost:5000/api/orders/${formValues._id}`)
->>>>>>> f3d6455f9be41e902a033d33d2c3d78f5d925657
         .then((res) => {
           setRecentOrders(res.data);
           localStorage.setItem("recentOrders", JSON.stringify(res.data));
@@ -144,13 +136,9 @@ export default function ContextData(props) {
   useEffect(() => {
     const fetchProducts = async () => {
       try {
-<<<<<<< HEAD
         const res = await axios.get(
           `${process.env.REACT_APP_SERVER_URL}/api/products`
         );
-=======
-        const res = await axios.get("/api/products");
->>>>>>> f3d6455f9be41e902a033d33d2c3d78f5d925657
         const productsArray = Array.isArray(res.data.products)
           ? res.data.products
           : Array.isArray(res.data)
@@ -168,14 +156,10 @@ export default function ContextData(props) {
   // function to add product
   const addProduct = async (newProduct) => {
     try {
-<<<<<<< HEAD
       const res = await axios.post(
         `${process.env.REACT_APP_SERVER_URL}/api/products`,
         newProduct
       );
-=======
-      const res = await axios.post("/api/products", newProduct);
->>>>>>> f3d6455f9be41e902a033d33d2c3d78f5d925657
       setProducts((prev) => [...prev, res.data]); // update state instantly
       return true;
     } catch (err) {
