@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 # Logs
 logs
 *.log
@@ -145,4 +144,3 @@ node_modules
 =======
 node_modules/
 .env
->>>>>>> f3d6455f9be41e902a033d33d2c3d78f5d925657
